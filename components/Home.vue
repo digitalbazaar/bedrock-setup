@@ -12,12 +12,9 @@
       </div>
       <div>
         <h4 class="text-center">Setup</h4>
-        <flow-chooser>
-          TODO
-          <router-link to="/flows/issue-organization-vc">
-            Issue Org VC
-          </router-link>
-        </flow-chooser>
+        <bedrock-setup>
+          Do setup here...
+        </bedrock-setup>
       </div>
     </div>
   </q-page>
