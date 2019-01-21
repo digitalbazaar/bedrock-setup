@@ -1,0 +1,26 @@
+{
+  "product": "Product Name",
+  "steps": [{
+    "title": "Welcome",
+    "image": "logo.png",
+    "description": "Welcome to the setup process for Product Name. The following steps will help you install the software. Click next to continue.",
+    "stepType": "Message"
+  },
+  {
+    "title": "Domain",
+    "description": "During this step, you will verify that the detected domain is appropriate.",
+    "stepType": "DomainInput",
+    "outputPrefix": "domain"
+  },
+  {
+    "title": "Administrator",
+    "description": "This step is used to configure the administrator account for this system.",
+    "stepType": "AccountInput",
+    "outputPrefix": "admin"
+  },
+  {
+    "title": "Review",
+    "description": "Please review the information you entered and then complete the setup process.",
+    "stepType": "Review"
+  }]
+}
