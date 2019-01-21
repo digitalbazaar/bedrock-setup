@@ -12,6 +12,7 @@
   "dependencies": {
     "@fortawesome/fontawesome-free-webfonts": "^1.0.8",
     "animate.css": "^3.6.1",
+    "axios": "^0.18.0",
     "bedrock": "^1.12.1",
     "bedrock-express": "^2.1.0",
     "bedrock-quasar": "^2.0.0",
