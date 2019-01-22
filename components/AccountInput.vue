@@ -53,12 +53,20 @@ const strongPassword = helpers.regex('strongPassword',
 
 export default {
   name: 'AccountInput',
-  props: ['value'],
+  props: ['value', 'title', 'outputPrefix'],
   methods: {
     updateValue() {
       this.$emit('input', {
-        email: this.email,
-        password: this.password
+        ...this.value,
+        [this.outputPrefix + '_email']: {
+          title: this.title,
+          value: this.email
+        },
+        [this.outputPrefix + '_password']: {
+          title: this.title + ' Password',
+          value: this.password,
+          hidden: true
+        }
       });
     }
   },

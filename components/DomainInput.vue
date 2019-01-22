@@ -27,10 +27,16 @@ const ipRegex = /((^\s*((([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}(
 
 export default {
   name: 'DomainInput',
-  props: ['value'],
+  props: ['value', 'title', 'outputPrefix'],
   methods: {
     updateValue() {
-      this.$emit('input', this.domain);
+      this.$emit('input', {
+        ...this.value,
+        [this.outputPrefix]: {
+          title: this.title,
+          value: this.domain
+        }
+      });
     }
   },
   mounted() {
@@ -38,7 +44,7 @@ export default {
   },
   data() {
     return {
-      domain: this.value || window.location.hostname
+      domain: this.value[this.outputPrefix] || window.location.hostname
     };
   },
   computed: {

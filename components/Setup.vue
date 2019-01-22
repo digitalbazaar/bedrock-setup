@@ -5,19 +5,12 @@
       {{step.description}}
 
       <domain-input v-if="step.stepType === 'DomainInput'"
-        v-model="domain"></domain-input>
+        v-model="config" :title="step.title" :outputPrefix="step.outputPrefix">
+      </domain-input>
       <account-input v-else-if="step.stepType === 'AccountInput'"
-        v-model="account"></account-input>
-
-      <dl v-else-if="step.stepType === 'Review'"
-        class="horizontal">
-          <dt>Domain</dt>
-          <dd>{{domain}}</dd>
-          <dt>Administrator</dt>
-          <dd>{{account.email}}</dd>
-          <dt>Password</dt>
-          <dd><q-input type="password" v-model="account.password"/></dd>
-      </dl>
+        v-model="config" :title="step.title" :outputPrefix="step.outputPrefix">
+      </account-input>
+      <review v-else-if="step.stepType === 'Review'" :config="config"></review>
 
       <q-stepper-navigation>
         <q-btn v-if="index > 0 && index !== setupProcess.steps.length - 1"
@@ -38,32 +31,32 @@
 
 import AccountInput from './AccountInput.vue';
 import DomainInput from './DomainInput.vue';
+import Review from './Review.vue';
 import {SetupService} from './SetupService.js';
 
 export default {
   name: 'Setup',
-  components: {DomainInput, AccountInput},
+  components: {DomainInput, AccountInput, Review},
   async mounted() {
-    this.setupProcess = await new SetupService().get();
+    this.setupService = new SetupService();
+    this.setupProcess = await this.setupService.get();
   },
   data() {
     return {
-      setupProcess: {
-        steps: []
-      },
-      domain: '',
-      account: {
-        email: '',
-        password: ''
-      }
+      setupProcess: {steps: []},
+      config: {}
     };
   },
   methods: {
-    getSetupProcess() {
-      console.log("GET SETUP");
-    },
     apply() {
-      console.log("APPLY");
+      const flatConfig = Object.keys(this.config).reduce((acc, key) => {
+        return {
+          ...acc,
+          [key]: this.config[key].value
+        };
+      }, {});
+      console.log("FLAT CONFIG", flatConfig);
+      //this.setupService.store
     }
   }
 };
