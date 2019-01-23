@@ -1,7 +1,7 @@
 <template>
   <q-stepper ref="stepper">
-    <q-step v-for="(step, index) in setupProcess.steps" :title="step.title"
-      style="max-width: 600px">
+    <q-step v-for="(step, index) in setupProcess.steps"
+      :title="step.title" style="max-width: 600px">
       {{step.description}}
 
       <domain-input v-if="step.stepType === 'DomainInput'"
@@ -33,6 +33,8 @@ import AccountInput from './AccountInput.vue';
 import DomainInput from './DomainInput.vue';
 import Review from './Review.vue';
 import {SetupService} from './SetupService.js';
+import Quasar from 'quasar-framework';
+const {components: {QSpinnerGears}} = Quasar;
 
 export default {
   name: 'Setup',
@@ -49,14 +51,21 @@ export default {
   },
   methods: {
     apply() {
+      // generate the flat config by processing the output of the setup process
       const flatConfig = Object.keys(this.config).reduce((acc, key) => {
         return {
           ...acc,
           [key]: this.config[key].value
         };
       }, {});
-      console.log("FLAT CONFIG", flatConfig);
-      //this.setupService.store
+      this.setupService.store(flatConfig);
+      console.log("QSG", QSpinnerGears);
+      this.$q.loading.show({
+        spinner: QSpinnerGears,
+        message: `${this.setupProcess.product} is being configured. ` +
+          'This may take a few minutes.',
+        spinnerSize: 250
+      });
     }
   }
 };

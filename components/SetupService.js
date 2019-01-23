@@ -8,17 +8,25 @@ import axios from 'axios';
 export class SetupService {
   constructor({
     urls = {
-      base: '/setup'
+      setup: '/setup',
+      config: '/config'
     }
   } = {}) {
     this.config = {urls};
   }
 
   async get() {
-    const url = this.config.urls.base + '/';
+    const url = this.config.urls.setup + '/';
     const response = await axios.get(url, {
       headers: {'Accept': 'application/ld+json, application/json'}
     });
     return response.data;
   }
+
+  async store(config) {
+    const url = this.config.urls.config + '/';
+    const response = await axios.post(url, config);
+    return response.data;
+  }
+
 }
