@@ -4,13 +4,15 @@
 'use strict';
 
 import {store} from 'bedrock-web-store';
+import {SetupService} from './SetupService.js';
 
 export const getRootData = async () => {
   const id = 'rootData';
   try {
     const data = {};
+    const setupProcess = await new SetupService().get();
     data.defaults = () => {
-      data.title = 'Bedrock';
+      data.title = setupProcess.product;
       data.subtitle = 'Setup';
     };
     await store.create({id, object: data});

@@ -3,10 +3,6 @@
 
     <q-layout-header>
       <q-toolbar>
-        <q-btn
-          flat round dense
-          @click="showDrawer = !showDrawer"
-          icon="fa fa-bars" />
         <q-toolbar-title
           @click.native="goHome()">
           <strong>{{title}}</strong>
@@ -15,20 +11,6 @@
 
       </q-toolbar>
     </q-layout-header>
-
-    <q-layout-drawer
-      side="left"
-      v-model="showDrawer">
-      <q-list-header>
-        <strong class="text-primary">Setup</strong>
-      </q-list-header>
-      <q-list no-border link>
-        <q-item to="/">
-          <q-item-side icon="fa fa-home" />
-          <q-item-main label="Home" />
-        </q-item>
-      </q-list>
-    </q-layout-drawer>
 
     <q-page-container style="overflow: auto">
       <router-view/>
@@ -74,11 +56,6 @@ export default {
         return;
       }
       return this.rootData.title;
-    }
-  },
-  methods: {
-    goHome() {
-      this.$router.push({path: '/'});
     }
   }
 };

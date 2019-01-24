@@ -33,8 +33,6 @@ import AccountInput from './AccountInput.vue';
 import DomainInput from './DomainInput.vue';
 import Review from './Review.vue';
 import {SetupService} from './SetupService.js';
-import Quasar from 'quasar-framework';
-const {components: {QSpinnerGears}} = Quasar;
 
 export default {
   name: 'Setup',
@@ -59,12 +57,10 @@ export default {
         };
       }, {});
       this.setupService.store(flatConfig);
-      console.log("QSG", QSpinnerGears);
       this.$q.loading.show({
-        spinner: QSpinnerGears,
         message: `${this.setupProcess.product} is being configured. ` +
           'This may take a few minutes.',
-        spinnerSize: 250
+        spinnerSize: 150
       });
     }
   }

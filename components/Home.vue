@@ -1,7 +1,5 @@
 <template>
-  <q-page
-    class="column gutter-md"
-    padding>
+  <q-page class="column gutter-md" padding>
     <div class="column items-center">
       <div class="justify-center">
         <setup></setup>
