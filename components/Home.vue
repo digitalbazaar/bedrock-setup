@@ -1,9 +1,7 @@
 <template>
-  <q-page class="column gutter-md" padding>
+  <q-page class="column gutter-md background" padding>
     <div class="column items-center">
-      <div class="justify-center">
-        <setup></setup>
-      </div>
+      <bedrock-stepper></bedrock-stepper>
     </div>
   </q-page>
 </template>
@@ -13,13 +11,19 @@
  */
 'use strict';
 
-import Setup from './Setup.vue';
+import BedrockStepper from './BedrockStepper.vue';
 
 export default {
   name: 'Home',
-  components: {Setup}
+  components: {BedrockStepper}
 };
 
 </script>
 <style>
+.background {
+  background-image: url('/images/stepper-background.svg');
+  background-repeat: no-repeat;
+  background-position: center top;
+  background-attachment: fixed;
+}
 </style>
