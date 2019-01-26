@@ -2,3 +2,297 @@
  * Copyright (c) 2019 Digital Bazaar, Inc. All rights reserved.
  */
 @fa-font-path: "@{bedrock-module-path}/@fortawesome/fontawesome-free-webfonts/webfonts";
+
+.list {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.input-box {
+  font-size: 24px;
+  padding: 10px;
+  width: 100%;
+  border: 1px solid #222;
+  color: #222
+}
+
+.input-icon {
+  padding: 10px 50px 10px 10px;
+}
+
+.input-box::placeholder {
+  color: #B1B1B1;
+}
+
+.read-input {
+  font-size: 24px;
+  border: none;
+  margin-left: 24px;
+  cursor: pointer;
+  color: #222
+}
+
+.input-box:focus,
+.read-input:focus {
+  outline: none;
+}
+
+.toggle-password {
+  margin: 15px 0 0 -40px;
+  position: absolute;
+}
+
+.hide-password,
+.show-password {
+  background-repeat: no-repeat;
+  background-position: center;
+  padding: 20px;
+  position: absolute;
+  cursor: pointer;
+}
+
+.hide-password {
+  background-image: url('/images/stepper-hidden-icon.svg');
+  margin: 8px 0 0 -50px;
+}
+
+.show-password {
+  background-image: url('/images/stepper-shown-icon.svg');
+  margin: 7px 0 0 -50px;
+}
+
+.dot li{
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  border-radius: 100%;
+  padding: 0;
+  margin: 15px 5px;
+  text-align: center;
+  position: relative;
+  background-color: #FFB9B9;
+}
+
+.dot .is-active{
+  background-color: #BB5555;
+}
+
+.btn-width {
+  width: calc(50% - 20px);
+  text-transform: capitalize;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.box-width {
+  width: 100%;
+  max-width: 900px;
+}
+
+.width-100 {
+  width: 100%;
+}
+
+.width-450 {
+  max-width: 450px;
+}
+
+.bg-red-main {
+  background-color: #BB5555;
+}
+
+.text-red-main {
+  color: #BB5555;
+}
+
+.border-red-main {
+  border: 1px solid #BB5555;
+}
+
+.text-dark-gray {
+  color: #222;
+}
+
+.q-mb-xxl {
+  margin-bottom: 122px;
+}
+
+.small-text {
+  font-size: 14px;
+}
+
+.circle {
+  border-radius: 50%;
+  margin-top: -124px;
+}
+
+.overflow-hidden {
+  overflow: hidden
+}
+
+.overflow {
+  overflow: scroll;
+}
+
+::-webkit-scrollbar { 
+    display: none; 
+}
+
+.error-message {
+  background-color: #BB5555;
+  color: #fff;
+  padding: 10px;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.error-input {
+  border-color: #BB5555;
+}
+
+/* Animation */
+@keyframes fadeInTop {
+    0% {
+        opacity: 0;
+        transform: translateY(-40px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}  
+
+.fadeInTop {
+  animation-delay: .2s;
+  animation-name: fadeInTop;
+  animation-duration: 0.7s;
+  animation-fill-mode: both;
+  animation-timing-function: ease-in-out;
+}
+
+@keyframes fadeInRight {
+    0% {
+        opacity: 0;
+        transform: translateX(40px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}  
+
+.fadeInRight {
+  animation-delay: 0s;
+  animation-name: fadeInRight;
+  animation-duration: 0.7s;
+  animation-fill-mode: both;
+  animation-timing-function: ease-in-out;
+} 
+
+@keyframes fadeInBottom {
+    0% {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}  
+
+.fadeInBottom {
+  animation-delay: .4s;
+  animation-name: fadeInBottom;
+  animation-duration: 0.7s;
+  animation-fill-mode: both;
+  animation-timing-function: ease-in-out;
+}
+
+@keyframes slideInRight {
+    0% {
+        transform: translateX(100vw);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}  
+
+.slideInRight {
+  animation-delay: 0s;
+  animation-name: slideInRight;
+  animation-duration: 0.3s;
+  animation-fill-mode: both;
+  animation-timing-function: ease-in-out;
+} 
+
+
+
+@keyframes slideOutLeft {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-100vw);
+    }
+}  
+
+.slideOutLeft {
+  animation-delay: 0s;
+  animation-name: slideOutLeft;
+  animation-duration: 0.3s;
+  animation-fill-mode: both;
+  animation-timing-function: ease-in-out;
+} 
+
+@keyframes slideInLeft {
+    0% {
+        transform: translateX(-100vw);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}  
+
+.slideInLeft {
+  animation-delay: 0s;
+  animation-name: slideInLeft;
+  animation-duration: 0.3s;
+  animation-fill-mode: both;
+  animation-timing-function: ease-in-out;
+} 
+
+
+
+@keyframes slideOutRight {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(100vw);
+    }
+}  
+
+.slideOutRight {
+  animation-delay: 0s;
+  animation-name: slideOutRight;
+  animation-duration: 0.3s;
+  animation-fill-mode: both;
+  animation-timing-function: ease-in-out;
+} 
+
+/* Media Queries */
+@media screen and (max-width: 767px) {
+  .input-box,
+  .read-input {
+    font-size: 14px;
+  }
+
+  .hide-password {
+    margin: 2px 0 0 -45px;
+  }
+
+.show-password {
+    margin: 1px 0 0 -45px;
+  }
+  
+}
