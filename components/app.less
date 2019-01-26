@@ -126,6 +126,11 @@
   margin-top: -124px;
 }
 
+.circle img {
+  width: 100px;
+  height: 100px;
+}
+
 .overflow-hidden {
   overflow: hidden
 }
@@ -280,6 +285,40 @@
   animation-timing-function: ease-in-out;
 } 
 
+@keyframes fadeOutIcon {
+  0% {
+      opacity: 1;
+  }
+  100% {
+      opacity: 0;
+  }
+}  
+
+.fadeOutIcon {
+animation-delay: 0;
+animation-name: fadeOutIcon;
+animation-duration: 0.3s;
+animation-fill-mode: both;
+animation-timing-function: ease-in-out;
+}
+
+@keyframes fadeInIcon {
+  0% {
+      opacity: 0;
+  }
+  100% {
+      opacity: 1;
+  }
+}  
+
+.fadeInIcon {
+animation-delay: 0;
+animation-name: fadeInIcon;
+animation-duration: 0.3s;
+animation-fill-mode: both;
+animation-timing-function: ease-in-out;
+}
+
 /* Media Queries */
 @media screen and (max-width: 767px) {
   .input-box,
@@ -291,8 +330,25 @@
     margin: 2px 0 0 -45px;
   }
 
-.show-password {
+  .show-password {
     margin: 1px 0 0 -45px;
+  }
+
+  .circle {
+    margin-top: -75px;
+  }
+
+  .circle img {
+    width: 50px;
+    height: 50px;
+  }
+
+  .overflow-hidden {
+    padding: 24px;
+  }
+
+  .width-250-mobile {
+    max-width: 250px;
   }
   
 }
