@@ -29,6 +29,7 @@
  */
 'use strict';
 
+import axios from 'axios';
 import AccountInput from './AccountInput.vue';
 import DomainInput from './DomainInput.vue';
 import Review from './Review.vue';
@@ -62,6 +63,17 @@ export default {
           'This may take a few minutes.',
         spinnerSize: 150
       });
+      this.refreshAfterRestart();
+    },
+    refreshAfterRestart() {
+      setTimeout(async () => {
+        try {
+          const response = await axios.get('/');
+          window.location.replace(window.location);
+        } catch(err) {
+          this.refreshAfterRestart();
+        }
+      }, 3000);
     }
   }
 };
