@@ -1,14 +1,13 @@
 <template>
-  <div class="column items-center width-100">
-    <h4 class="text-center text-white q-mt-none q-mb-xxl fadeInRight">Let's get started!</h4>
+  <div class="column items-center width-100 q-mt-xl">
     <section v-if="step === 1" class="column items-center width-100" :class="{'fadeInTop': initialLoad}">
       <div class="column items-center bg-white box-width q-pa-xl round-borders shadow-6 overflow-hidden">
         <div class="circle absolute bg-white q-pa-lg">
-          <img src="/images/stepper-welcome-icon.svg" width="100px" height="100px">
+          <img src="/images/stepper-welcome-icon.svg" :class="{'fadeInIcon': fadeInIcon, 'fadeOutIcon': fadeOutIcon}">
         </div>
         <div class="column items-center" :class="{'slideOutLeft': slideOutLeft, 'slideInLeft': slideInLeft}">
           <h4 class="text-center width-450 text-dark-gray">Welcome to the setup process for Product Name</h4>
-          <h5 class="text-center text-dark-gray q-mt-sm q-mb-sm">The following steps will help you install the software:</h5>
+          <h5 class="text-center text-dark-gray q-mt-sm q-mb-sm width-250-mobile">The following steps will help you install the software:</h5>
           <ul class="text-dark-gray list">
             <h5 class="q-mt-xs q-mb-xs">1. Domain Setup</h5>
             <h5 class="q-mt-xs q-mb-xs">2. Administrator Setup</h5>
@@ -23,7 +22,7 @@
     <section v-if="step === 2" class="column items-center width-100">
       <div class="column items-center bg-white box-width q-pa-xl round-borders shadow-6 overflow-hidden">
         <div class="circle absolute bg-white q-pa-lg">
-          <img src="/images/stepper-domain-icon.svg" width="100px" height="100px">
+          <img src="/images/stepper-domain-icon.svg" :class="{'fadeInIcon': fadeInIcon, 'fadeOutIcon': fadeOutIcon}">
         </div>
         <form :class="{'slideInRight': step === 2, 'slideOutLeft': slideOutLeft, 'slideInLeft': slideInLeft, 'slideOutRight': slideOutRight}">
           <div class="column items-center">
@@ -44,11 +43,11 @@
     <section v-if="step === 3" class="column items-center width-100">
       <div class="column items-center bg-white box-width q-pa-xl round-borders shadow-6 overflow-hidden">
         <div class="circle absolute bg-white q-pa-lg">
-          <img src="/images/stepper-person-icon.svg" width="100px" height="100px">
+          <img src="/images/stepper-person-icon.svg" :class="{'fadeInIcon': fadeInIcon, 'fadeOutIcon': fadeOutIcon}">
         </div>
         <form  :class="{'slideInRight': step === 3, 'slideOutLeft': slideOutLeft, 'slideInLeft': slideInLeft, 'slideOutRight': slideOutRight}">
           <div class="column items-center">
-            <h5 class="text-center width-450 text-dark-gray">This step is used to configure the administrator account for this system</h5>
+            <h5 class="text-center width-450 text-dark-gray q-mt-md q-mb-md">This step is used to configure the administrator account for this system</h5>
             <div class="width-100">
               <input v-model="email.value" type="email" placeholder="Email" required class="input-box" :class="{'error-input': $v.email.value.$invalid && email.error}">
               <p class="small-text text-dark-gray q-mt-xs">The email address associated with this account</p>
@@ -77,7 +76,7 @@
      <section v-if="step === 4" class="column items-center width-100">
       <div class="column items-center bg-white box-width q-pa-xl round-borders shadow-6 overflow-hidden">
         <div class="circle absolute bg-white q-pa-lg">
-          <img src="/images/stepper-review-icon.svg" width="100px" height="100px">
+          <img src="/images/stepper-review-icon.svg" :class="{'fadeInIcon': fadeInIcon, 'fadeOutIcon': fadeOutIcon}">
         </div>
         <div :class="{'slideInRight': step === 4, 'slideOutLeft': slideOutLeft, 'slideOutRight': slideOutRight}">
           <div class="column items-center">
@@ -157,7 +156,9 @@ export default {
       slideInRight: false,
       slideInLeft: false,
       slideOutRight: false,
-      slideOutLeft: false
+      slideOutLeft: false,
+      fadeInIcon: false,
+      fadeOutIcon: false
     };
   },
   methods: {
@@ -165,18 +166,26 @@ export default {
       this.initialLoad = false,
       this.slideOutLeft = true;
       this.slideInLeft = false;
+      this.fadeOutIcon = true;
+      this.fadeInIcon = false;
       setTimeout(() => {
         this.step += 1;
         this.slideOutLeft = false;
+        this.fadeOutIcon = false;
+        this.fadeInIcon = true;
       }, 300)
     },
     back() {
       this.slideOutRight = true;
       this.slideInLeft = false;
+      this.fadeOutIcon = true;
+      this.fadeInIcon = false;
       setTimeout(() => {
         this.step -= 1;
         this.slideOutRight = false;
         this.slideInLeft = true;
+        this.fadeOutIcon = false;
+        this.fadeInIcon = true;
       }, 300)
     },
     storeDomain() {
@@ -184,9 +193,13 @@ export default {
         this.domain.error = false;
         this.slideOutLeft = true;
         this.slideInLeft = false;
+        this.fadeOutIcon = true;
+        this.fadeInIcon = false;
         setTimeout(() => {
           this.step += 1;
           this.slideOutLeft = false;
+          this.fadeOutIcon = false;
+          this.fadeInIcon = true;
         }, 300)
       }
       else
@@ -199,9 +212,13 @@ export default {
         this.verify.error = false;
         this.slideOutLeft = true;
         this.slideInLeft = false;
+        this.fadeOutIcon = true;
+        this.fadeInIcon = false;
         setTimeout(() => {
           this.step += 1;
           this.slideOutLeft = false;
+          this.fadeOutIcon = false;
+          this.fadeInIcon = true;
         }, 300)
       } else {
         this.administratorError;
