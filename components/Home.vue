@@ -20,10 +20,4 @@ export default {
 
 </script>
 <style>
-.background {
-  background-image: url('/images/stepper-background.svg');
-  background-repeat: no-repeat;
-  background-position: center top;
-  background-attachment: fixed;
-}
 </style>
