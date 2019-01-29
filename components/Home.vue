@@ -1,7 +1,7 @@
 <template>
   <q-page class="column gutter-md background" padding>
     <div class="column items-center">
-      <bedrock-stepper></bedrock-stepper>
+      <setup-wizard></setup-wizard>
     </div>
   </q-page>
 </template>
@@ -11,11 +11,11 @@
  */
 'use strict';
 
-import BedrockStepper from './BedrockStepper.vue';
+import SetupWizard from './SetupWizard.vue';
 
 export default {
   name: 'Home',
-  components: {BedrockStepper}
+  components: {SetupWizard}
 };
 
 </script>
