@@ -1,5 +1,5 @@
 <template>
-  <q-btn @click="back()" class="bg-white border-red-main text-red-main btn-width q-mt-lg">Back</q-btn>
+  <q-btn @click="back()" class="bg-white border-red-main text-red-main btn-width">Back</q-btn>
 </template>
 <script>
 /*!

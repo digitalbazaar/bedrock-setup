@@ -1,10 +1,7 @@
 <template>
   <div class="dot fadeInBottom">
     <ul class="list">
-      <li v-bind:class="{ 'is-active': step === 1 }"></li>
-      <li v-bind:class="{ 'is-active': step === 2 }"></li>
-      <li v-bind:class="{ 'is-active': step === 3 }"></li>
-      <li v-bind:class="{ 'is-active': step === 4 }"></li>
+      <li v-for="(step, index) in steps" v-bind:key="index" :class="{ 'is-active': currentStep === index + 1 }"></li>
     </ul>
   </div>
 </template>
@@ -17,8 +14,12 @@
 export default {
   name: 'StepProgress',
   props: {
-    step: {
+    currentStep: {
       type: Number,
+      required: true
+    },
+    steps: {
+      type: Array,
       required: true
     },
   }

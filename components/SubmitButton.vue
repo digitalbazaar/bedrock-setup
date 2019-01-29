@@ -1,5 +1,5 @@
 <template>
-  <q-btn @click="next()" class="bg-red-main text-white btn-width">Next</q-btn>
+  <q-btn @click="submit()" class="bg-red-main text-white btn-width">Submit</q-btn>
 </template>
 <script>
 /*!
@@ -8,10 +8,10 @@
 'use strict';
 
 export default {
-  name: 'NextButton',
+  name: 'SubmitButton',
   methods: {
-    next() {
-      this.$emit('next')
+    submit() {
+      this.$emit('submit')
     }
   }
 };
