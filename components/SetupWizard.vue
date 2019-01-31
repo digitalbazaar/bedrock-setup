@@ -6,18 +6,20 @@
           <div class="circle absolute bg-white q-pa-lg">
             <img :src="step.icon" :class="{'fadeInIcon': animations.fadeInIcon, 'fadeOutIcon': animations.fadeOutIcon}">
           </div>
-          <div class="column items-center" :class="{'slideInRight': animations.slideInRight, 'slideOutLeft': animations.slideOutLeft, 'slideInLeft': animations.slideInLeft, 'slideOutRight': animations.slideOutRight}">
-            <h4 v-if="step.heading !== ''" class="text-center width-450 text-dark-gray q-mt-sm q-mb-lg">{{ step.heading }}</h4>
-            <h5 v-if="step.subheading !== ''" class="text-center text-dark-gray q-mt-sm q-mb-sm width-450 width-250-mobile">{{ step.subheading }}</h5>
+          <div class="column items-center width-450" :class="{'slideInRight': animations.slideInRight, 'slideOutLeft': animations.slideOutLeft, 'slideInLeft': animations.slideInLeft, 'slideOutRight': animations.slideOutRight}">
+            <h4 v-if="step.heading !== ''" class="text-center q-mt-sm q-mb-sm">{{ step.heading }}</h4>
+            <h5 v-if="step.subheading !== ''" class="text-center q-mt-lg q-mb-lg width-250-mobile">{{ step.subheading }}</h5>
             
             <!-- Specific Component Data -->
             <welcome v-if="step.name === 'Welcome'"></welcome>
-            <domain v-if="step.name === 'Domain'"></domain>
+            <domain v-if="step.name === 'Domain'" :storedData="setup.steps[index].storedData" @storeData="storeData($event, index)" @blocker="blocker($event)"></domain>
+            <administrator v-if="step.name === 'Administrator'" :storedData="setup.steps[index].storedData" @storeData="storeData($event, index)" @blocker="blocker($event)"></administrator>
+            <review v-if="step.name === 'Review'" @data="getSubmitData($event)" :domain="setup.steps[1].storedData" :administrator="setup.steps[2].storedData"></review>
 
             <div class="row justify-center width-100 q-mt-lg">
-              <back-button v-if="index + 1 !== 1" @back="back()" class="q-ml-md q-mr-md"></back-button>
-              <next-button v-if="index + 1 !== setup.steps.length" @next="next()" class="q-ml-md q-mr-md"></next-button>
-              <submit-button v-if="index + 1 === setup.steps.length" @submit="submit()" class="q-ml-md q-mr-md"></submit-button>
+              <back-button v-if="index + 1 !== 1" @back="back()" class="q-mr-md"></back-button>
+              <next-button v-if="index + 1 !== setup.steps.length" @next="next()" :class="{'q-ml-md': index + 1 !== 1}"></next-button>
+              <submit-button v-if="index + 1 === setup.steps.length" @submit="submit()" class="q-ml-md"></submit-button>
             </div>
           </div>
         </div>
@@ -35,17 +37,19 @@
 
 import Welcome from './Welcome.vue';
 import Domain from './Domain.vue';
-import AdministratorStep from './AdministratorStep.vue';
-import ReviewStep from './ReviewStep.vue';
+import Administrator from './Administrator.vue';
+import Review from './Review.vue';
 import StepProgress from './StepProgress.vue';
 import NextButton from './NextButton.vue';
 import BackButton from './BackButton.vue';
 import SubmitButton from './SubmitButton.vue';
 import { setTimeout } from 'timers';
 
+import bus from './bus';
+
 export default {
   name: 'SetupWizard',
-  components: {Welcome, Domain, AdministratorStep, ReviewStep, StepProgress, NextButton, BackButton, SubmitButton},
+  components: {Welcome, Domain, Administrator, Review, StepProgress, NextButton, BackButton, SubmitButton},
   data() {
     return {
       currentStep: 1,
@@ -55,47 +59,33 @@ export default {
             icon: '/images/stepper-welcome-icon.svg',
             heading: 'Welcome to the setup process for Product Name',
             subheading: 'The following steps will help you install the software:',
+            storedData: {}
           },
           {
             name: 'Domain',
             icon: '/images/stepper-domain-icon.svg',
             heading: '',
             subheading: 'During this step, you will verify that the detected domain is appropriate',
+            storedData: {}
           },
           {
             name: 'Administrator',
-            icon: '',
+            icon: '/images/stepper-person-icon.svg',
             heading: '',
-            subheading: '',
+            subheading: 'This step is used to configure the administrator account for this system',
+            storedData: {}
           },
           {
             name: 'Review',
-            icon: '',
+            icon: '/images/stepper-review-icon.svg',
             heading: '',
-            subheading: '',
+            subheading: 'Please review the information you entered and then complete the setup process',
+            storedData: {}
           }]
       },
-      passwordToggle: 'password',
-      verifyToggle: 'password',
-      passwordReveal: 'password',
-      administrator: {
-        email: {
-          value: '',
-          error: false,
-          errorMessage: '',
-        },
-        password: {
-          value: '',
-          error: false,
-          errorMessage: '',
-        },
-        verify: {
-          value: '',
-          error: false,
-          errorMessage: '',
-        },
-      },
-      apply: {},
+      blocked: false,
+      storedData: {},
+      submitData: '',
       animations: {
         initialLoad: true,
         slideInRight: false,
@@ -109,6 +99,10 @@ export default {
   },
   methods: {
     next() {
+      bus.$emit('errorCheck');
+      if(this.blocked) {
+        return
+      }
       this.animations.slideOutLeft = true;
       this.animations.slideInLeft = false;
       this.animations.slideInRight = false;
@@ -123,6 +117,7 @@ export default {
       }, 300)
     },
     back() {
+      this.blocked = false;
       this.animations.slideOutRight = true;
       this.animations.slideInRight = false;
       this.animations.slideInLeft = false;
@@ -136,14 +131,18 @@ export default {
         this.animations.fadeInIcon = true;
       }, 300)
     },
-    submit() {
-      this.apply = {
-        domain: this.domain.value,
-        email: this.administrator.email.value,
-        password: this.administrator.password.value
-      }
-      console.log('Submit', this.apply);
+    storeData(data, index) {
+      this.setup.steps[index].storedData = data;
     },
+    submit() {
+      console.log('Submit', this.submitData);
+    },
+    getSubmitData(data) {
+      this.submitData = data;
+    },
+    blocker(data) {
+      this.blocked = data;
+    }
   }
 };
 </script>
