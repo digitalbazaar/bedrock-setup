@@ -18,12 +18,19 @@ export default {
         // do whatever, like error checking
         // ...
         console.log('test');
-        
+
+        // uncomment this to show next getting canceled!
+        const error = new Error(
+          'Suppose some error happened and we need to cancel next');
+
+        // ... or use this instead because no error happened, next can proceed!
+        //const error = null;
+
         if(error) {
           reject(error);
         } else {
           resolve();
-        }      
+        }
       }));
     }
   }

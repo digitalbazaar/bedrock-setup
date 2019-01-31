@@ -9,7 +9,7 @@
           <div class="column items-center width-450" :class="{'slideInRight': animations.slideInRight, 'slideOutLeft': animations.slideOutLeft, 'slideInLeft': animations.slideInLeft, 'slideOutRight': animations.slideOutRight}">
             <h4 v-if="step.heading !== ''" class="text-center q-mt-sm q-mb-sm">{{ step.heading }}</h4>
             <h5 v-if="step.subheading !== ''" class="text-center q-mt-lg q-mb-lg">{{ step.subheading }}</h5>
-            
+
             <!-- Specific Component Data -->
             <welcome v-if="step.name === 'Welcome'"></welcome>
             <domain v-if="step.name === 'Domain'" :storedData="setup.steps[index].storedData" @storeData="storeData($event, index)" @blocker="blocker($event)"></domain>
@@ -104,12 +104,14 @@ export default {
         this.$emit('next', {
           waitUntil: p => promise = p
         });
-        console.log('Promise', promise)
         await promise;
       } catch(e) {
         // cancel next
+        console.log('next was canceled!');
         return;
       }
+
+      console.log('next is ok!');
 
       // bus.$emit('errorCheck');
 
