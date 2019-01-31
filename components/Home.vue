@@ -1,7 +1,7 @@
 <template>
   <q-page class="column gutter-md background" padding>
     <div class="column items-center">
-      <setup-wizard></setup-wizard>
+      <setup></setup>
     </div>
   </q-page>
 </template>
@@ -11,11 +11,11 @@
  */
 'use strict';
 
-import SetupWizard from './SetupWizard.vue';
+import Setup from './Setup.vue';
 
 export default {
   name: 'Home',
-  components: {SetupWizard}
+  components: {Setup}
 };
 
 </script>
