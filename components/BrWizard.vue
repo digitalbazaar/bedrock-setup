@@ -8,7 +8,7 @@
           </div>
           <div class="column items-center width-450" :class="{'slideInRight': animations.slideInRight, 'slideOutLeft': animations.slideOutLeft, 'slideInLeft': animations.slideInLeft, 'slideOutRight': animations.slideOutRight}">
             <h4 v-if="step.heading !== ''" class="text-center q-mt-sm q-mb-sm">{{ step.heading }}</h4>
-            <h5 v-if="step.subheading !== ''" class="text-center q-mt-lg q-mb-lg width-250-mobile">{{ step.subheading }}</h5>
+            <h5 v-if="step.subheading !== ''" class="text-center q-mt-lg q-mb-lg">{{ step.subheading }}</h5>
             
             <!-- Specific Component Data -->
             <welcome v-if="step.name === 'Welcome'"></welcome>
@@ -45,10 +45,10 @@ import BackButton from './BackButton.vue';
 import SubmitButton from './SubmitButton.vue';
 import { setTimeout } from 'timers';
 
-import bus from './bus';
+// import bus from './bus';
 
 export default {
-  name: 'SetupWizard',
+  name: 'BrWizard',
   components: {Welcome, Domain, Administrator, Review, StepProgress, NextButton, BackButton, SubmitButton},
   data() {
     return {
@@ -98,8 +98,21 @@ export default {
     };
   },
   methods: {
-    next() {
-      bus.$emit('errorCheck');
+    async next() {
+      try {
+        let promise = Promise.resolve();
+        this.$emit('next', {
+          waitUntil: p => promise = p
+        });
+        console.log('Promise', promise)
+        await promise;
+      } catch(e) {
+        // cancel next
+        return;
+      }
+
+      // bus.$emit('errorCheck');
+
       if(this.blocked) {
         return
       }
