@@ -1,13 +1,15 @@
 <template>
-  <dl class="horizontal">
-      <div v-for="item in config">
-        <dt>{{item.title}}</dt>
-        <dd v-if="!item.hidden">{{item.value}}</dd>
-        <dd v-else>
-          <q-input type="password" v-model="item.value"/>
-        </dd>
-      </div>
-  </dl>
+  <div width-100>
+    <div class="row justify-center width-100 wrap items-center">
+      <h5 class="col text-right width-450 text-dark-gray q-pr-lg q-mt-sm q-mb-sm">Domain:</h5><h5 class="col text-left width-450 text-dark-gray q-pl-lg q-mt-sm q-mb-sm overflow">{{domain.domain.value}}</h5>
+    </div>
+    <div class="row justify-center width-100 wrap items-center">
+      <h5 class="col text-right width-450 text-dark-gray q-pr-lg q-mt-sm q-mb-sm">Administrator:</h5><h5 class="col text-left width-450 text-dark-gray q-pl-lg q-mt-sm q-mb-sm overflow">{{administrator.email.value}}</h5>
+    </div>
+    <div class="row justify-center width-100">
+      <h5 class="col text-right width-450 text-dark-gray q-pr-lg q-mt-sm q-mb-sm">Password:</h5><input @click="revealPassword()" :type="passwordReveal" :value="administrator.password.value" readonly class="col read-input">
+    </div>
+  </div>
 </template>
 <script>
 /*!
@@ -15,14 +17,50 @@
  */
 'use strict';
 
-import {required, email, helpers} from 'vuelidate/lib/validators';
-
-const strongPassword = helpers.regex('strongPassword',
-  /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{16,})/);
+import BackButton from './BackButton.vue';
 
 export default {
   name: 'Review',
-  props: ['config']
+  components: {BackButton},
+  props: {
+    step: {
+      type: Number,
+      required: true
+    },
+    animations: {
+      type: Object,
+      required: true,
+    },
+    domain: {
+      type: Object,
+      required: true,
+    },
+    administrator: {
+      type: Object,
+      required: true,
+    },
+  },
+  created() {
+    let data = {
+      domain: this.domain.domain.value,
+      email: this.administrator.email.value,
+      password: this.administrator.password.value,
+    };
+    this.$emit('data', data);
+  },
+  data() {
+    return { 
+      passwordReveal: 'password'
+    }
+  },
+  methods: {
+    revealPassword() {
+      if(this.passwordReveal === 'password') {
+        return this.passwordReveal = 'text'
+      }
+      this.passwordReveal = 'password'
+    }
+  },
 };
 </script>
 <style>

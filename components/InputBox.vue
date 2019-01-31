@@ -1,10 +1,10 @@
 <template>
-  <div class="q-mt-md width-100">
+  <div class="q-mt-md q-mb-md width-100">
     <div>
-      <input :change="update(value)" v-model="value" type="text" placeholder="Domain" class="input-box" :class="{'error-input': invalid && error}">
-      <p class="small-text text-dark-gray q-mt-xs">{{description}}</p>
+      <input :change="update(value)" v-model="value" :type="type" :placeholder="placeholder" class="input-box" :class="{'error-input': invalid && error}"><password-toggle-button v-if="icon" @toggle="toggle()" :type="type"></password-toggle-button>
+      <p class="small-text text-dark-gray q-mt-xs q-mb-none">{{description}}</p>
     </div>
-    <span v-if="invalid && error" class="error-message width-100 width-450">{{errorMessage}}</span>
+    <div v-if="invalid && error" class="error-message width-100 q-mt-sm">{{errorMessage}}</div>
   </div>
 </template>
 <script>
@@ -13,10 +13,17 @@
  */
 'use strict';
 
+import PasswordToggleButton from './PasswordToggleButton.vue';
+
 export default {
   name: 'InputBox',
+  components: {PasswordToggleButton},
   props: {
     value: {
+      type: String,
+      required: true
+    },
+    type: {
       type: String,
       required: true
     },
@@ -35,11 +42,22 @@ export default {
     description: {
       type: String,
       required: true,
+    },
+    placeholder: {
+      type: String,
+      required: true,
+    },
+    icon: {
+      type: Boolean,
+      required: false,
     }
   },
   methods: {
     update(value) {
-      this.$emit('update', value);
+      this.$emit('update', this.value);
+    },
+    toggle() {
+      this.$emit('toggle')
     }
   }
 };

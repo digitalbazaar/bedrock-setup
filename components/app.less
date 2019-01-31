@@ -3,6 +3,10 @@
  */
 @fa-font-path: "@{bedrock-module-path}/@fortawesome/fontawesome-free-webfonts/webfonts";
 
+body {
+  color: #222;
+}
+
 .background {
   background-image: url('/images/stepper-background.svg');
   background-repeat: no-repeat;
@@ -24,7 +28,6 @@
   padding: 10px;
   width: 100%;
   border: 1px solid #222;
-  color: #222
 }
 
 .input-icon {
@@ -40,7 +43,6 @@
   border: none;
   margin-left: 24px;
   cursor: pointer;
-  color: #222
 }
 
 .input-box:focus,
@@ -89,7 +91,7 @@
 }
 
 .btn-width {
-  width: calc(50% - 32px);
+  width: calc(50% - 16px);
   text-transform: capitalize;
   font-size: 16px;
   font-weight: bold;
@@ -120,10 +122,6 @@
   border: 1px solid #BB5555;
 }
 
-.text-dark-gray {
-  color: #222;
-}
-
 .q-mb-xxl {
   margin-bottom: 122px;
 }
@@ -147,7 +145,7 @@
 }
 
 .overflow {
-  overflow: scroll;
+  overflow-x: scroll;
 }
 
 ::-webkit-scrollbar { 
@@ -222,6 +220,13 @@
   animation-duration: 0.7s;
   animation-fill-mode: both;
   animation-timing-function: ease-in-out;
+}
+
+.clearfix:after {
+  content: "";
+  display: table;
+  clear: both;
+  background: none;
 }
 
 @keyframes slideInRight {
@@ -332,9 +337,18 @@ animation-timing-function: ease-in-out;
 
 /* Media Queries */
 @media screen and (max-width: 767px) {
+
+  h5 {
+    font-size: 18px;
+  }
+
+  .btn-width {
+    font-size: 14px;
+  }
+
   .input-box,
   .read-input {
-    font-size: 14px;
+    font-size: 18px;
   }
 
   .hide-password {
@@ -346,7 +360,7 @@ animation-timing-function: ease-in-out;
   }
 
   .circle {
-    margin-top: -75px;
+    margin-top: -87px;
   }
 
   .circle img {
@@ -355,11 +369,16 @@ animation-timing-function: ease-in-out;
   }
 
   .overflow-hidden {
-    padding: 24px;
+    padding: 36px 24px 24px 24px;
   }
 
-  .width-250-mobile {
-    max-width: 250px;
+  .dot li{
+    width: 10px;
+    height: 10px;
   }
+
+  // .width-250-mobile {
+  //   max-width: 250px;
+  // }
   
 }

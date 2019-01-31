@@ -1,5 +1,5 @@
 <template>
-  <ul class="text-dark-gray list">
+  <ul class="list q-mb-none q-mt-none">
     <h5 class="q-mt-xs q-mb-xs">1. Domain Setup</h5>
     <h5 class="q-mt-xs q-mb-xs">2. Administrator Setup</h5>
     <h5 class="q-mt-xs q-mb-xs">3. Review</h5>
