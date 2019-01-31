@@ -1,8 +1,6 @@
 <template>
   <ul class="list q-mb-none q-mt-none">
-    <h5 class="q-mt-xs q-mb-xs">1. Domain Setup</h5>
-    <h5 class="q-mt-xs q-mb-xs">2. Administrator Setup</h5>
-    <h5 class="q-mt-xs q-mb-xs">3. Review</h5>
+    <h5 v-for="(step, index) in steps">{{index + 1}}. {{step.name}}</h5>
   </ul>
 </template>
 <script>
@@ -12,7 +10,13 @@
 'use strict';
 
 export default {
-  name: 'Welcome'
+  name: 'Welcome',
+  props: {
+    steps: {
+      type: Array,
+      required: true
+    }
+  }
 };
 </script>
 <style>
