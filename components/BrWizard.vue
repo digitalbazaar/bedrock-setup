@@ -1,31 +1,57 @@
 <template>
   <div class="column items-center width-100 q-mt-xl">
-    <section class="column items-center width-100" :class="{'fadeInTop': animations.initialLoad}">
-      <div v-for="(step, index) in setup.steps" v-bind:key="index" class="box-width">
-        <div v-if="currentStep === index + 1" class="column items-center bg-white box-width q-pa-xl top-spacing round-borders shadow-6 overflow-hidden">
+    <section class="column items-center width-100"
+      :class="{'fadeInTop': animations.initialLoad}">
+      <div v-if="currentStep" class="box-width">
+        <div class="column items-center bg-white box-width q-pa-xl
+          top-spacing round-borders shadow-6 overflow-hidden">
           <div class="circle absolute bg-white q-pa-lg">
-            <img :src="step.icon" :class="{'fadeInIcon': animations.fadeInIcon, 'fadeOutIcon': animations.fadeOutIcon}">
+            <img
+              :src="currentStep.icon"
+              :class="{
+                'fadeInIcon': animations.fadeInIcon,
+                'fadeOutIcon': animations.fadeOutIcon
+              }">
           </div>
-          <div class="column items-center width-450" :class="{'slideInRight': animations.slideInRight, 'slideOutLeft': animations.slideOutLeft, 'slideInLeft': animations.slideInLeft, 'slideOutRight': animations.slideOutRight}">
-            <h4 v-if="step.heading !== ''" class="text-center q-mt-sm q-mb-sm">{{ step.heading }}</h4>
-            <h5 v-if="step.subheading !== ''" class="text-center q-mt-lg q-mb-lg">{{ step.subheading }}</h5>
+          <div class="column items-center width-450"
+            :class="{
+              'slideInRight': animations.slideInRight,
+              'slideOutLeft': animations.slideOutLeft,
+              'slideInLeft': animations.slideInLeft,
+              'slideOutRight': animations.slideOutRight
+            }">
+            <h4 v-if="currentStep.heading !== ''"
+              class="text-center q-mt-sm q-mb-sm">
+              {{currentStep.heading}}
+            </h4>
+            <h5 v-if="currentStep.subheading !== ''"
+              class="text-center q-mt-lg q-mb-lg">
+              {{currentStep.subheading}}
+            </h5>
 
-            <!-- Specific Component Data -->
-            <welcome v-if="step.name === 'Welcome'"></welcome>
-            <domain v-if="step.name === 'Domain'" :storedData="setup.steps[index].storedData" @storeData="storeData($event, index)" @blocker="blocker($event)"></domain>
-            <administrator v-if="step.name === 'Administrator'" :storedData="setup.steps[index].storedData" @storeData="storeData($event, index)" @blocker="blocker($event)"></administrator>
-            <review v-if="step.name === 'Review'" @data="getSubmitData($event)" :domain="setup.steps[1].storedData" :administrator="setup.steps[2].storedData"></review>
+            <welcome v-if="currentStep === welcomeStep" :steps="steps" />
+            <!-- Custom Step Slot -->
+            <slot v-else name="step"></slot>
 
             <div class="row justify-center width-100 q-mt-lg">
-              <back-button v-if="index + 1 !== 1" @back="back()" class="q-mr-md"></back-button>
-              <next-button v-if="index + 1 !== setup.steps.length" @next="next()" :class="{'q-ml-md': index + 1 !== 1}"></next-button>
-              <submit-button v-if="index + 1 === setup.steps.length" @submit="submit()" class="q-ml-md"></submit-button>
+              <back-button
+                v-if="currentStepIndex > 0"
+                @back="onBack()"
+                class="q-mr-md" />
+              <next-button
+                v-if="currentStepIndex < steps.length - 1"
+                :class="{'q-ml-md': currentStepIndex > 0}"
+                @next="onNext()" />
+              <submit-button
+                v-if="currentStepIndex === steps.length - 1"
+                class="q-ml-md"
+                @submit="onSubmit()" />
             </div>
           </div>
         </div>
       </div>
     </section>
-    <step-progress :currentStep="currentStep" :steps="setup.steps"></step-progress>
+    <step-progress :currentStep="currentStepIndex + 1" :steps="steps" />
   </div>
 </template>
 
@@ -36,56 +62,62 @@
 'use strict';
 
 import Welcome from './Welcome.vue';
-import Domain from './Domain.vue';
-import Administrator from './Administrator.vue';
-import Review from './Review.vue';
 import StepProgress from './StepProgress.vue';
 import NextButton from './NextButton.vue';
 import BackButton from './BackButton.vue';
 import SubmitButton from './SubmitButton.vue';
-import { setTimeout } from 'timers';
-
-// import bus from './bus';
+import {setTimeout} from 'timers';
 
 export default {
   name: 'BrWizard',
-  components: {Welcome, Domain, Administrator, Review, StepProgress, NextButton, BackButton, SubmitButton},
+  components: {Welcome, StepProgress, NextButton, BackButton, SubmitButton},
+  mounted() {
+    this.welcomeStep = this.currentStep = {
+      name: this.title,
+      icon: this.icon,
+      heading: this.heading,
+      subheading: this.subheading
+    };
+  },
+  props: {
+    loading: {
+      type: Boolean,
+      default: false
+    },
+    blockNext: {
+      type: Boolean,
+      default: false
+    },
+    description: {
+      type: Object,
+      required: true
+    },
+    heading: {
+      type: String,
+      required: true
+    },
+    icon: {
+      type: String,
+      required: true
+    },
+    steps: {
+      type: Array,
+      required: true
+    },
+    subheading: {
+      type: String,
+      required: true
+    },
+    title: {
+      type: String,
+      required: true
+    }
+  },
   data() {
     return {
-      currentStep: 1,
-      setup: {
-        steps: [{
-            name: 'Welcome',
-            icon: '/images/stepper-welcome-icon.svg',
-            heading: 'Welcome to the setup process for Product Name',
-            subheading: 'The following steps will help you install the software:',
-            storedData: {}
-          },
-          {
-            name: 'Domain',
-            icon: '/images/stepper-domain-icon.svg',
-            heading: '',
-            subheading: 'During this step, you will verify that the detected domain is appropriate',
-            storedData: {}
-          },
-          {
-            name: 'Administrator',
-            icon: '/images/stepper-person-icon.svg',
-            heading: '',
-            subheading: 'This step is used to configure the administrator account for this system',
-            storedData: {}
-          },
-          {
-            name: 'Review',
-            icon: '/images/stepper-review-icon.svg',
-            heading: '',
-            subheading: 'Please review the information you entered and then complete the setup process',
-            storedData: {}
-          }]
-      },
-      blocked: false,
-      storedData: {},
-      submitData: '',
+      welcomeStep: null,
+      currentStepIndex: -1,
+      currentStep: null,
       animations: {
         initialLoad: true,
         slideInRight: false,
@@ -98,68 +130,76 @@ export default {
     };
   },
   methods: {
-    async next() {
-      try {
-        let promise = Promise.resolve();
-        this.$emit('next', {
-          waitUntil: p => promise = p
-        });
-        await promise;
-      } catch(e) {
-        // cancel next
+    async onNext() {
+      if(!await this._emitCancelableEvent('next', {
+        currentStep: this.currentStep,
+        currentStepIndex: this.currentStepIndex
+      })) {
         console.log('next was canceled!');
         return;
       }
-
       console.log('next is ok!');
-
-      // bus.$emit('errorCheck');
-
-      if(this.blocked) {
-        return
-      }
       this.animations.slideOutLeft = true;
       this.animations.slideInLeft = false;
       this.animations.slideInRight = false;
       this.animations.fadeOutIcon = true;
       this.animations.fadeInIcon = false;
       setTimeout(() => {
-        this.currentStep += 1;
+        this.currentStep = this.steps[++this.currentStepIndex];
         this.animations.slideOutLeft = false;
         this.animations.slideInRight = true;
         this.animations.fadeOutIcon = false;
         this.animations.fadeInIcon = true;
-      }, 300)
+      }, 300);
     },
-    back() {
-      this.blocked = false;
+    async onBack() {
+      if(!await this._emitCancelableEvent('back', {
+        currentStep: this.currentStep,
+        currentStepIndex: this.currentStepIndex
+      })) {
+        console.log('back was canceled!');
+        return;
+      }
+      console.log('back is ok!');
       this.animations.slideOutRight = true;
       this.animations.slideInRight = false;
       this.animations.slideInLeft = false;
       this.animations.fadeOutIcon = true;
       this.animations.fadeInIcon = false;
       setTimeout(() => {
-        this.currentStep -= 1;
+        this.currentStep = this.steps[--this.currentStepIndex] ||
+          this.welcomeStep;
         this.animations.slideOutRight = false;
         this.animations.slideInLeft = true;
         this.animations.fadeOutIcon = false;
         this.animations.fadeInIcon = true;
-      }, 300)
+      }, 300);
     },
-    storeData(data, index) {
-      this.setup.steps[index].storedData = data;
+    async onSubmit() {
+      if(!await this._emitCancelableEvent('submit')) {
+        console.log('submit was canceled!');
+        return;
+      }
+      console.log('submit is ok!');
     },
-    submit() {
-      console.log('Submit', this.submitData);
-    },
-    getSubmitData(data) {
-      this.submitData = data;
-    },
-    blocker(data) {
-      this.blocked = data;
+    async _emitCancelableEvent(name, event = {}) {
+      try {
+        let promise = Promise.resolve();
+        this.$emit(name, {
+          ...event,
+          waitUntil: p => promise = p
+        });
+        await promise;
+        // not canceled
+        return true;
+      } catch(e) {
+        // canceled
+        return false;
+      }
     }
   }
 };
+
 </script>
 <style>
 </style>
