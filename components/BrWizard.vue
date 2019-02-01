@@ -29,9 +29,8 @@
               {{currentStep.subheading}}
             </h5>
 
-            <welcome v-if="currentStep === welcomeStep" :steps="steps" />
             <!-- Custom Step Slot -->
-            <slot v-else name="step"></slot>
+            <slot name="step"></slot>
 
             <div class="row justify-center width-100 q-mt-lg">
               <back-button
@@ -61,7 +60,7 @@
  */
 'use strict';
 
-import Welcome from './Welcome.vue';
+
 import StepProgress from './StepProgress.vue';
 import NextButton from './NextButton.vue';
 import BackButton from './BackButton.vue';
@@ -70,53 +69,19 @@ import {setTimeout} from 'timers';
 
 export default {
   name: 'BrWizard',
-  components: {Welcome, StepProgress, NextButton, BackButton, SubmitButton},
+  components: {StepProgress, NextButton, BackButton, SubmitButton},
   mounted() {
-    this.welcomeStep = this.currentStep = {
-      name: this.title,
-      icon: this.icon,
-      heading: this.heading,
-      subheading: this.subheading
-    };
+    this.currentStep = this.steps[this.currentStepIndex];
   },
   props: {
-    loading: {
-      type: Boolean,
-      default: false
-    },
-    blockNext: {
-      type: Boolean,
-      default: false
-    },
-    description: {
-      type: Object,
-      required: true
-    },
-    heading: {
-      type: String,
-      required: true
-    },
-    icon: {
-      type: String,
-      required: true
-    },
     steps: {
       type: Array,
-      required: true
-    },
-    subheading: {
-      type: String,
-      required: true
-    },
-    title: {
-      type: String,
       required: true
     }
   },
   data() {
     return {
-      welcomeStep: null,
-      currentStepIndex: -1,
+      currentStepIndex: 0,
       currentStep: null,
       animations: {
         initialLoad: true,
@@ -145,7 +110,9 @@ export default {
       this.animations.fadeOutIcon = true;
       this.animations.fadeInIcon = false;
       setTimeout(() => {
-        this.currentStep = this.steps[++this.currentStepIndex];
+        this.currentStepIndex++;
+        this.$emit('index', this.currentStepIndex);
+        this.currentStep = this.steps[this.currentStepIndex];
         this.animations.slideOutLeft = false;
         this.animations.slideInRight = true;
         this.animations.fadeOutIcon = false;
@@ -167,8 +134,9 @@ export default {
       this.animations.fadeOutIcon = true;
       this.animations.fadeInIcon = false;
       setTimeout(() => {
-        this.currentStep = this.steps[--this.currentStepIndex] ||
-          this.welcomeStep;
+        this.currentStepIndex--;
+        this.$emit('index', this.currentStepIndex);
+        this.currentStep = this.steps[this.currentStepIndex];
         this.animations.slideOutRight = false;
         this.animations.slideInLeft = true;
         this.animations.fadeOutIcon = false;

@@ -1,28 +1,29 @@
 <template>
   <br-wizard
-    title="Welcome"
-    icon="/images/stepper-welcome-icon.svg"
-    heading="Welcome to the setup process for Product Name"
-    subheading="The following steps will help you install the software:"
-    :blockNext="blockNext"
     :steps="steps"
     @back="back($event)"
     @next="next($event)"
-    @submit="submit($event)">
+    @submit="submit($event)"
+    @index="stepIndex = $event">
     <template slot="step">
+      <welcome 
+        v-if="steps[stepIndex].name === 'Welcome'" 
+        :steps="steps"/>
       <domain
-        xv-if="steps[stepIndex].name === 'Domain'"
+        v-if="steps[stepIndex].name === 'Domain'"
         :storedData="domainData"
-        @storeData="storeData($event, stepIndex)"
-        @blocker="blocker($event)" />
+        @data="domainData = $event"
+        @blocker="blockNext = $event" 
+        ref="domain" />
       <administrator
-        xv-if="step.name === 'Administrator'"
+        v-if="steps[stepIndex].name === 'Administrator'"
         :storedData="adminData"
-        @storeData="storeData($event, stepIndex)"
-        @blocker="blocker($event)" />
+        @data="adminData = $event"
+        @blocker="blockNext = $event" 
+        ref="administrator" />
       <review
-        xv-if="step.name === 'Review'"
-        @data="getSubmitData($event)"
+        v-if="steps[stepIndex].name === 'Review'"
+        @data="reviewData = $event"
         :domain="domainData"
         :administrator="adminData" />
     </template>
@@ -34,14 +35,15 @@
  */
 'use strict';
 
-import Administrator from './Administrator.vue';
 import BrWizard from './BrWizard.vue';
+import Welcome from './Welcome.vue';
 import Domain from './Domain.vue';
+import Administrator from './Administrator.vue';
 import Review from './Review.vue';
 
 export default {
   name: 'Setup',
-  components: {BrWizard, Domain, Administrator, Review},
+  components: {BrWizard, Welcome, Domain, Administrator, Review},
   data() {
     return {
       blockNext: false,
@@ -50,6 +52,11 @@ export default {
       adminData: {},
       reviewData: {},
       steps: [{
+        name: 'Welcome',
+        icon: '/images/stepper-welcome-icon.svg',
+        heading: 'Welcome to the setup process for Product Name',
+        subheading: 'The following steps will help you install the software:'
+      }, {
         name: 'Domain',
         icon: '/images/stepper-domain-icon.svg',
         heading: '',
@@ -76,30 +83,37 @@ export default {
       event.waitUntil(new Promise((resolve, reject) => {
         // do whatever, like error checking
         // ...
-        console.log('test');
+        // console.log('test');
+        const error = '';
+
+        if(this.steps[this.stepIndex].name === 'Domain') {
+          this.$refs.domain.errorCheck();
+        }
+        if(this.steps[this.stepIndex].name === 'Administrator') {
+          this.$refs.administrator.errorCheck();
+        }
 
         // uncomment this to show next getting canceled!
-        const error = new Error(
-          'Suppose some error happened and we need to cancel next');
-
-        // ... or use this instead because no error happened, next can proceed!
-        //const error = null;
-        //this.stepIndex++;
-
-        if(error) {
+        if(this.blockNext) {
+          console.log('Blocked')
+          this.error = new Error(
+          'Error Check Failed');
           reject(error);
         } else {
+          // ... or use this instead because no error happened, next can proceed!
+          console.log('Passed')
+          this.error = null;
           resolve();
         }
       }));
     },
     back(event) {
       console.log('back was triggered in the wizard', event);
-      this.stepIndex--;
     },
     submit(event) {
       console.log('do something to submit the things!', event);
-    }
+      console.log('SUBMIT', this.reviewData);
+    },
   }
 };
 
