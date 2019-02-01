@@ -1,6 +1,6 @@
 <template>
   <ul class="list q-mb-none q-mt-none">
-    <h5 v-for="(step, index) in steps">{{index + 1}}. {{step.name}}</h5>
+    <h5 v-for="(step, index) in steps.slice(1)" :key="index" class="q-mt-xs q-mb-xs">{{index + 1}}. {{step.name}}</h5>
   </ul>
 </template>
 <script>

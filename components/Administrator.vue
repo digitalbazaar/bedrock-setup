@@ -91,7 +91,7 @@ export default {
         password: this.password,
         verify: this.verify
       }
-      this.$emit('storeData', data)
+      this.$emit('data', data)
     },
     togglePassword() {
       if(this.passwordToggle === 'password') {
