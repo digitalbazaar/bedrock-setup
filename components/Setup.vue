@@ -1,6 +1,7 @@
 <template>
   <br-wizard
     :steps="steps"
+    :blockNext="blockNext"
     @back="back($event)"
     @next="next($event)"
     @submit="submit($event)"
