@@ -44,9 +44,8 @@ export default {
   },
   methods: {
     update(value) {
-      this.domain.value = value;
-      this.domainError; 
-      console.log(this.domain.error);
+      this.domain.value = value;    
+      this.domain.error = false;
       this.debounce(value);
     },
     debounce: pDebounce(async function (value) {
@@ -60,7 +59,6 @@ export default {
         this.domain.error = true;
         this.$emit('blocker', true)
         console.log('BLOCKED WITH ERROR')
-        console.log(this.domain.error)
         return this.domainError;
       }
       console.log('NO ERROR')
