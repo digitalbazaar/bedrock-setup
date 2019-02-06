@@ -7,20 +7,20 @@
     @submit="submit($event)"
     @index="stepIndex = $event">
     <template slot="step">
-      <welcome 
-        v-if="steps[stepIndex].name === 'Welcome'" 
+      <welcome
+        v-if="steps[stepIndex].name === 'Welcome'"
         :steps="steps"/>
       <domain
         v-if="steps[stepIndex].name === 'Domain'"
         :storedData="domainData"
         @data="domainData = $event"
-        @blocker="blockNext = $event" 
+        @blocker="blockNext = $event"
         ref="domain" />
       <administrator
         v-if="steps[stepIndex].name === 'Administrator'"
         :storedData="adminData"
         @data="adminData = $event"
-        @blocker="blockNext = $event" 
+        @blocker="blockNext = $event"
         ref="administrator" />
       <review
         v-if="steps[stepIndex].name === 'Review'"
@@ -36,8 +36,7 @@
  */
 'use strict';
 
-import BrWizard from './BrWizard.vue';
-import Welcome from './Welcome.vue';
+import {BrWizard, Welcome} from 'bedrock-vue-wizard';
 import Domain from './Domain.vue';
 import Administrator from './Administrator.vue';
 import Review from './Review.vue';

@@ -17,11 +17,8 @@
  */
 'use strict';
 
-import BackButton from './BackButton.vue';
-
 export default {
   name: 'Review',
-  components: {BackButton},
   props: {
     step: {
       type: Number,
@@ -49,7 +46,7 @@ export default {
     this.$emit('data', data);
   },
   data() {
-    return { 
+    return {
       passwordReveal: 'password'
     }
   },
