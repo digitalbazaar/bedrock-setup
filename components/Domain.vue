@@ -22,7 +22,7 @@ export default {
   props: {
     storedData: {
       type: Object,
-      required: true 
+      required: true
     },
   },
   data() {
@@ -34,47 +34,52 @@ export default {
       },
       inputPlaceholder: 'Domain',
       inputDescription: 'The fully qualified domain name for this server'
-    }
+    };
   },
   created() {
-    if(Object.keys(this.storedData).length !== 0){
+    if(Object.keys(this.storedData).length !== 0) {
       this.domain = this.storedData.domain;
     }
     this.$emit('blocker', true);
   },
   methods: {
     update(value) {
-      this.domain.value = value;    
+      console.log('update called again');
+      this.domain.value = value;
       this.domain.error = false;
       this.debounce(value);
     },
-    debounce: pDebounce(async function (value) {
-      console.log('DEBOUNCE')
+    debounce: pDebounce(async function(value) {
+      console.log('DEBOUNCE CALLED');
       if(value !== '') {
         this.errorCheck();
       }
     }, 500),
     errorCheck() {
       if(this.$v.domain.value.$invalid) {
+        // FIXME: this is causing a loop to get triggered
         this.domain.error = true;
-        this.$emit('blocker', true)
-        console.log('BLOCKED WITH ERROR')
+        this.$emit('blocker', true);
+        console.log('BLOCKED WITH ERROR');
         return this.domainError;
       }
-      console.log('NO ERROR')
+      console.log('NO ERROR');
       this.domain.error = false;
-      this.$emit('blocker', false)
-      let data = {domain: this.domain}
-      this.$emit('data', data)
+      this.$emit('blocker', false);
+      const data = {domain: this.domain};
+      this.$emit('data', data);
     },
   },
   computed: {
     domainError() {
       if(!this.$v.domain.value.domainName) {
-        this.domain.errorMessage = 'The domain you entered is not a valid domain name.';
+        this.domain.errorMessage =
+          'The domain you entered is not a valid domain name.';
       }
       if(!this.$v.domain.value.domainMatchesHostname) {
-        this.domain.errorMessage = 'The domain name you entered does not match your browser location bar.';
+        this.domain.errorMessage =
+          'The domain name you entered does not match your browser ' +
+          'location bar.';
       }
       if(!this.$v.domain.value.notIpAddress) {
         this.domain.errorMessage = 'You cannot use an IP address.';
