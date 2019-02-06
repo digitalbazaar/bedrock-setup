@@ -25,6 +25,7 @@
     "bedrock-web-session": "^1.1.0",
     "bedrock-web-store": "^1.1.1",
     "bedrock-webpack": "^2.0.0",
+    "p-debounce": "^1.0.0",
     "vue": "^2.5.16",
     "vue-async-computed": "^3.3.1",
     "vue-router": "^3.0.1",

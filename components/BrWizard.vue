@@ -40,7 +40,8 @@
               <next-button
                 v-if="currentStepIndex < steps.length - 1"
                 :class="{'q-ml-md': currentStepIndex > 0}"
-                @next="onNext()" />
+                @next="onNext()"
+                :disabled="blockNext" />
               <submit-button
                 v-if="currentStepIndex === steps.length - 1"
                 class="q-ml-md"
@@ -76,6 +77,10 @@ export default {
   props: {
     steps: {
       type: Array,
+      required: true
+    },
+    blockNext: {
+      type: Boolean,
       required: true
     }
   },
