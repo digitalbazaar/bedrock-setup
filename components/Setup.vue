@@ -109,6 +109,7 @@ export default {
     },
     back(event) {
       console.log('back was triggered in the wizard', event);
+      this.blockNext = false;
     },
     submit(event) {
       console.log('do something to submit the things!', event);
