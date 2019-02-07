@@ -1,10 +1,10 @@
 <template>
   <div class="q-mt-md q-mb-md width-100">
     <div>
-      <input :change="update(value)" v-model="value" :type="type" :placeholder="placeholder" class="input-box" :class="{'error-input': invalid && error}"><password-toggle-button v-if="icon" @toggle="toggle()" :type="type"></password-toggle-button>
+      <input :change="update(value)" v-model="value" @input="typing = true" :type="type" :placeholder="placeholder" class="input-box" :class="{'error-input': invalid && error && typing === false}"><password-toggle-button v-if="icon" @toggle="toggle()" :type="type"></password-toggle-button>
       <p class="small-text text-dark-gray q-mt-xs q-mb-none">{{description}}</p>
     </div>
-    <div v-if="invalid && error" class="error-message width-100 q-mt-sm">{{errorMessage}}</div>
+    <div v-if="invalid && error && typing === false" class="error-message width-100 q-mt-sm">{{errorMessage}}</div>
   </div>
 </template>
 <script>
@@ -14,6 +14,7 @@
 'use strict';
 
 import PasswordToggleButton from './PasswordToggleButton.vue';
+import pDebounce from 'p-debounce';
 
 export default {
   name: 'InputBox',
@@ -51,6 +52,16 @@ export default {
       type: Boolean,
       required: false,
     }
+  },
+  data() {
+    return {
+      typing: false,
+    };
+  },
+  watch: {
+    value: pDebounce(async function() {
+      this.typing = false;
+    }, 500)
   },
   methods: {
     update(value) {
