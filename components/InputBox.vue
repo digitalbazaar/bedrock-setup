@@ -65,7 +65,7 @@ export default {
   },
   methods: {
     update(value) {
-      this.$emit('update', this.value);
+      this.$emit('input', this.value);
     },
     toggle() {
       this.$emit('toggle')

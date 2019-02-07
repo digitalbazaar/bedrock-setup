@@ -1,6 +1,6 @@
 <template>
   <form class="column items-center width-100">
-    <input-box ref="input" @update="update($event)" :value="domain.value" :invalid="$v.domain.value.$invalid" :error="domain.error" :typing="typing" :errorMessage="domain.errorMessage" :placeholder="inputPlaceholder" :description="inputDescription"></input-box>
+    <input-box v-model="domain.value" :change="debounce(domain.value)" :invalid="$v.domain.value.$invalid" :error="domain.error" :typing="typing" :errorMessage="domain.errorMessage" :placeholder="inputPlaceholder" :description="inputDescription"></input-box>
   </form>
 </template>
 <script>
@@ -20,7 +20,7 @@ export default {
   name: 'Domain',
   components: {InputBox},
   props: {
-    storedData: {
+    value: {
       type: Object,
       required: true
     },
@@ -37,8 +37,8 @@ export default {
     };
   },
   created() {
-    if(Object.keys(this.storedData).length !== 0) {
-      this.domain = this.storedData.domain;
+    if(Object.keys(this.value).length !== 0) {
+      this.domain = this.value.domain;
     }
     this.$emit('blocker', true);
   },
@@ -51,10 +51,6 @@ export default {
     }
   },
   methods: {
-    update(value) {
-      this.domain.value = value;
-      this.debounce(value);
-    },
     debounce: pDebounce(async function(value) {
       if(value !== '') {
         this.errorCheck();
@@ -66,8 +62,8 @@ export default {
         return this.domainError;
       }
       this.domain.error = false;
-      const data = {domain: this.domain};
-      this.$emit('data', data);
+      const domainData = {domain: this.domain};
+      this.$emit('input', domainData);
     }
     
   },
