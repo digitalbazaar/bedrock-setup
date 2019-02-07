@@ -1,8 +1,8 @@
 <template>
   <form class="column items-center width-100">
-    <input-box @update="updateEmail($event)" :type="'text'" :value="email.value" :invalid="$v.email.value.$invalid" :error="email.error" :errorMessage="email.errorMessage" :placeholder="inputPlaceholder.email" :description="inputDescription.email"></input-box>
-    <input-box @update="updatePassword($event)" @toggle="togglePassword()" :type="passwordToggle" :icon="true" :value="password.value" :invalid="$v.password.value.$invalid" :error="password.error" :errorMessage="password.errorMessage" :placeholder="inputPlaceholder.password" :description="inputDescription.password"></input-box>
-    <input-box @update="updateVerify($event)" @toggle="toggleVerify()" :type="verifyToggle" :icon="true" :value="verify.value" :invalid="$v.verify.value.$invalid" :error="verify.error" :errorMessage="verify.errorMessage" :placeholder="inputPlaceholder.verify" :description="inputDescription.verify"></input-box>
+    <input-box v-model="email.value" :change="debounceEmail(email.value)" :type="'text'" :invalid="$v.email.value.$invalid" :error="email.error" :errorMessage="email.errorMessage" :placeholder="inputPlaceholder.email" :description="inputDescription.email"></input-box>
+    <input-box v-model="password.value" :change="debouncePassword(password.value)" @toggle="togglePassword()" :type="passwordToggle" :icon="true" :invalid="$v.password.value.$invalid" :error="password.error" :errorMessage="password.errorMessage" :placeholder="inputPlaceholder.password" :description="inputDescription.password"></input-box>
+    <input-box v-model="verify.value" :change="debounceVerify(verify.value)" @toggle="toggleVerify()" :type="verifyToggle" :icon="true" :invalid="$v.verify.value.$invalid" :error="verify.error" :errorMessage="verify.errorMessage" :placeholder="inputPlaceholder.verify" :description="inputDescription.verify"></input-box>
   </form>
 </template>
 <script>
@@ -21,7 +21,7 @@ export default {
   name: 'Administrator',
   components: {InputBox},
   props: {
-    storedData: {
+    value: {
       type: Object,
       required: true 
     }
@@ -58,10 +58,10 @@ export default {
     }
   },
   created() {
-    if(Object.keys(this.storedData).length !== 0){
-      this.email = this.storedData.email;
-      this.password = this.storedData.password;
-      this.verify = this.storedData.verify;
+    if(Object.keys(this.value).length !== 0){
+      this.email = this.value.email;
+      this.password = this.value.password;
+      this.verify = this.value.verify;
     }
     this.$emit('blocker', true);
   },
@@ -125,12 +125,12 @@ export default {
     validateForm() {
       if(!this.$v.email.value.$invalid && !this.$v.password.value.$invalid && !this.$v.verify.value.$invalid) {
         this.$emit('blocker', false)
-        let data = {
+        let adminData = {
           email: this.email,
           password: this.password,
           verify: this.verify
         }
-        this.$emit('data', data)
+        this.$emit('input', adminData)
       }
     },
     togglePassword() {
@@ -144,18 +144,6 @@ export default {
         return this.verifyToggle = 'text'
       }
       this.verifyToggle = 'password'
-    },
-    updateEmail(value) {
-      this.email.value = value;
-      this.debounceEmail(value);
-    },
-    updatePassword(value) {
-      this.password.value = value;
-      this.debouncePassword(value);
-    },
-    updateVerify(value) {
-      this.verify.value = value;
-      this.debounceVerify(value);
     },
   },
   computed: {

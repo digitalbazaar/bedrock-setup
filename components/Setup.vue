@@ -12,21 +12,20 @@
         :steps="steps"/>
       <domain
         v-if="steps[stepIndex].name === 'Domain'"
-        :storedData="domainData"
-        @data="domainData = $event"
+        v-model="domainData"
         @blocker="blockNext = $event"
         ref="domain" />
       <administrator
         v-if="steps[stepIndex].name === 'Administrator'"
-        :storedData="adminData"
-        @data="adminData = $event"
+        v-model="adminData"
         @blocker="blockNext = $event"
         ref="administrator" />
       <review
         v-if="steps[stepIndex].name === 'Review'"
-        @data="reviewData = $event"
+        v-model="reviewData"
         :domain="domainData"
-        :administrator="adminData" />
+        :administrator="adminData" 
+        :submitted="submitted" />
     </template>
   </br-wizard>
 </template>
@@ -47,6 +46,7 @@ export default {
   data() {
     return {
       blockNext: false,
+      submitted: false,
       stepIndex: 0,
       domainData: {},
       adminData: {},
@@ -80,25 +80,6 @@ export default {
   methods: {
     next(event) {
       console.log('next was triggered in the wizard', event);
-      event.waitUntil(new Promise((resolve, reject) => {
-        // do whatever, like error checking
-        // ...
-        // console.log('test');
-        const error = '';
-
-        // uncomment this to show next getting canceled!
-        if(this.blockNext) {
-          console.log('Blocked')
-          this.error = new Error(
-          'Error Check Failed');
-          reject(error);
-        } else {
-          // ... or use this instead because no error happened, next can proceed!
-          console.log('Passed')
-          this.error = null;
-          resolve();
-        }
-      }));
     },
     back(event) {
       console.log('back was triggered in the wizard', event);
@@ -107,6 +88,7 @@ export default {
     submit(event) {
       console.log('do something to submit the things!', event);
       console.log('SUBMIT', this.reviewData);
+      this.submitted = true;
     },
   }
 };
