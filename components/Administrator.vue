@@ -13,7 +13,7 @@
 
 import InputBox from './InputBox.vue';
 import {required, email, helpers} from 'vuelidate/lib/validators';
-import bus from './bus';
+import pDebounce from 'p-debounce';
 
 const strongPassword = helpers.regex('strongPassword', /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{16,})/);
 
@@ -63,35 +63,75 @@ export default {
       this.password = this.storedData.password;
       this.verify = this.storedData.verify;
     }
-    bus.$on('errorCheck', () => {
-      this.errorCheck();
-    });
+    this.$emit('blocker', true);
+  },
+  watch: {
+    '$v.email.value.$invalid': function() {
+      if(this.$v.email.value.$invalid) {
+        return this.$emit('blocker', true);
+      }
+    },
+    '$v.password.value.$invalid': function() {
+      if(this.$v.password.value.$invalid) {
+        return this.$emit('blocker', true);
+      }
+    },
+    '$v.verify.value.$invalid': function() {
+      if(!this.$v.verify.value.passwordsMatch) {
+        return this.$emit('blocker', true);
+      }
+    }
   },
   methods: {
-    errorCheck() {
-      if(this.$v.email.value.$invalid || this.$v.password.value.$invalid || this.$v.verify.value.$invalid) {
-        if(this.$v.email.value.$invalid) {
-          this.email.error = true;
-        }
-        if(this.$v.password.value.$invalid) {
-          this.password.error = true;
-        }
-        if(!this.$v.verify.value.passwordsMatch) {
-          this.verify.error = true;
-        }
-        this.$emit('blocker', true)
-        return this.administratorError;
+    debounceEmail: pDebounce(async function(value) {
+      if(value !== '') {
+        this.emailErrorCheck();
+      }
+    }, 500),
+    debouncePassword: pDebounce(async function(value) {
+      if(value !== '') {
+        this.passwordErrorCheck();
+      }
+    }, 500),
+    debounceVerify: pDebounce(async function(value) {
+      if(value !== '') {
+        this.verifyErrorCheck();
+      }
+    }, 500),
+    emailErrorCheck() {
+      if(this.$v.email.value.$invalid) {
+        this.email.error = true;
+        return this.emailError;
       }
       this.email.error = false;
-      this.password.error = false;
-      this.verify.error = false;
-      this.$emit('blocker', false)
-      let data = {
-        email: this.email,
-        password: this.password,
-        verify: this.verify
+      this.validateForm();
+    },
+    passwordErrorCheck() {
+      if(this.$v.password.value.$invalid) {
+        this.password.error = true;
+        return this.passwordError;
       }
-      this.$emit('data', data)
+      this.password.error = false;
+      this.validateForm();
+    },
+    verifyErrorCheck() {
+      if(!this.$v.verify.value.passwordsMatch) {
+        this.verify.error = true;
+        return this.verifyError;
+      }
+      this.verify.error = false;
+      this.validateForm();
+    },
+    validateForm() {
+      if(!this.$v.email.value.$invalid && !this.$v.password.value.$invalid && !this.$v.verify.value.$invalid) {
+        this.$emit('blocker', false)
+        let data = {
+          email: this.email,
+          password: this.password,
+          verify: this.verify
+        }
+        this.$emit('data', data)
+      }
     },
     togglePassword() {
       if(this.passwordToggle === 'password') {
@@ -107,25 +147,29 @@ export default {
     },
     updateEmail(value) {
       this.email.value = value;
-      this.administratorError;
+      this.debounceEmail(value);
     },
     updatePassword(value) {
       this.password.value = value;
-      this.administratorError;
+      this.debouncePassword(value);
     },
     updateVerify(value) {
       this.verify.value = value;
-      this.administratorError;
+      this.debounceVerify(value);
     },
   },
   computed: {
-    administratorError() {
+    emailError() {
       if(this.$v.email.value.$invalid) {
         this.email.errorMessage = 'The email you entered is not a valid email address.';
       }
+    },
+    passwordError() {
       if(this.$v.password.value.$invalid) {
         this.password.errorMessage = 'Your password must be at least 16 characters long, contain at least one number and have a mixture of uppercase and lowercase letters.';
       }
+    },
+    verifyError() {
       if(!this.$v.verify.value.passwordsMatch) {
         this.verify.errorMessage = 'Passwords do no match.';
       }

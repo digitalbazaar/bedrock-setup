@@ -86,13 +86,6 @@ export default {
         // console.log('test');
         const error = '';
 
-        if(this.steps[this.stepIndex].name === 'Domain') {
-          this.$refs.domain.errorCheck();
-        }
-        if(this.steps[this.stepIndex].name === 'Administrator') {
-          this.$refs.administrator.errorCheck();
-        }
-
         // uncomment this to show next getting canceled!
         if(this.blockNext) {
           console.log('Blocked')

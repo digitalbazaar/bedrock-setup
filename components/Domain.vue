@@ -1,6 +1,6 @@
 <template>
   <form class="column items-center width-100">
-    <input-box @update="update($event)" :value="domain.value" :invalid="$v.domain.value.$invalid" :error="domain.error" :errorMessage="domain.errorMessage" :placeholder="inputPlaceholder" :description="inputDescription"></input-box>
+    <input-box ref="input" @update="update($event)" :value="domain.value" :invalid="$v.domain.value.$invalid" :error="domain.error" :typing="typing" :errorMessage="domain.errorMessage" :placeholder="inputPlaceholder" :description="inputDescription"></input-box>
   </form>
 </template>
 <script>
@@ -33,7 +33,7 @@ export default {
         errorMessage: '',
       },
       inputPlaceholder: 'Domain',
-      inputDescription: 'The fully qualified domain name for this server'
+      inputDescription: 'The fully qualified domain name for this server',
     };
   },
   created() {
@@ -42,33 +42,34 @@ export default {
     }
     this.$emit('blocker', true);
   },
+  watch: {
+    '$v.domain.value.$invalid': function() {
+      if(this.$v.domain.value.$invalid) {
+        return this.$emit('blocker', true);
+      }
+      this.$emit('blocker', false);
+    }
+  },
   methods: {
     update(value) {
-      console.log('update called again');
       this.domain.value = value;
-      this.domain.error = false;
       this.debounce(value);
     },
     debounce: pDebounce(async function(value) {
-      console.log('DEBOUNCE CALLED');
       if(value !== '') {
         this.errorCheck();
       }
     }, 500),
     errorCheck() {
       if(this.$v.domain.value.$invalid) {
-        // FIXME: this is causing a loop to get triggered
         this.domain.error = true;
-        this.$emit('blocker', true);
-        console.log('BLOCKED WITH ERROR');
         return this.domainError;
       }
-      console.log('NO ERROR');
       this.domain.error = false;
-      this.$emit('blocker', false);
       const data = {domain: this.domain};
       this.$emit('data', data);
-    },
+    }
+    
   },
   computed: {
     domainError() {
