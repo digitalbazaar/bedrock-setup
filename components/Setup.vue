@@ -4,7 +4,7 @@
     :blockNext="blockNext"
     @back="back($event)"
     @next="next($event)"
-    @submit="submit($event)"
+    @finish="submit($event)"
     @index="stepIndex = $event">
     <template slot="step">
       <welcome
@@ -24,7 +24,7 @@
         v-if="steps[stepIndex].name === 'Review'"
         v-model="reviewData"
         :domain="domainData"
-        :administrator="adminData" 
+        :administrator="adminData"
         :submitted="submitted" />
     </template>
   </br-wizard>
