@@ -2,9 +2,11 @@
   <br-wizard
     :steps="steps"
     :blockNext="blockNext"
+    :blockBack="blockBack"
+    :blockFinish="blockFinish"
     @back="back($event)"
     @next="next($event)"
-    @finish="submit($event)"
+    @finish="finish($event)"
     @index="stepIndex = $event">
     <template slot="step">
       <welcome
@@ -25,7 +27,7 @@
         v-model="reviewData"
         :domain="domainData"
         :administrator="adminData"
-        :submitted="submitted" />
+        :loading="loading" />
     </template>
   </br-wizard>
 </template>
@@ -35,18 +37,27 @@
  */
 'use strict';
 
+
+import axios from 'axios';
 import {BrWizard, Welcome} from 'bedrock-vue-wizard';
 import Domain from './Domain.vue';
 import Administrator from './Administrator.vue';
 import Review from './Review.vue';
+import {SetupService} from './SetupService.js';
 
 export default {
   name: 'Setup',
   components: {BrWizard, Welcome, Domain, Administrator, Review},
+  async mounted() {
+    this.setupService = new SetupService();
+    this.setupProcess = await this.setupService.get();
+  },
   data() {
     return {
       blockNext: false,
-      submitted: false,
+      blockBack: false,
+      blockFinish: false,
+      loading: false,
       stepIndex: 0,
       domainData: {},
       adminData: {},
@@ -85,11 +96,32 @@ export default {
       console.log('back was triggered in the wizard', event);
       this.blockNext = false;
     },
-    submit(event) {
+    finish(event) {
       console.log('do something to submit the things!', event);
       console.log('SUBMIT', this.reviewData);
-      this.submitted = true;
+      const flatConfig = Object.keys(this.reviewData).reduce((acc, key) => {
+        console.log('ACC & KEY', acc, key)
+        return {
+          ...acc,
+          [key]: this.reviewData[key].value
+        };
+      }, {});
+      this.setupService.store(flatConfig);
+      this.loading = true;
+      this.blockBack = true;
+      this.blockFinish = true;
+      this.refreshAfterRestart();
     },
+    refreshAfterRestart() {
+      setTimeout(async () => {
+        try {
+          const response = await axios.get('/');
+          window.location.replace(window.location);
+        } catch(err) {
+          this.refreshAfterRestart();
+        }
+      }, 3000);
+    }
   }
 };
 
