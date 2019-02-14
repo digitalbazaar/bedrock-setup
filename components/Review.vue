@@ -9,7 +9,10 @@
     <div class="row justify-center width-100">
       <h5 class="col text-right width-450 text-dark-gray q-pr-lg q-mt-sm q-mb-sm">Password:</h5><input @click="revealPassword()" :type="passwordReveal" :value="administrator.password.value" readonly class="col read-input">
     </div>
-    <div v-if="submitted === true" class="success-message width-100 q-mt-sm">Your account has been created.</div>
+    <div v-if="loading === true" class="width-100 q-mt-sm row items-center justify-between">
+      <div class="lds-dual-ring col-2"></div>
+      <div class="loading-message col-9">Your account is being created. This may take a few minutes.</div>
+    </div>
   </div>
 </template>
 <script>
@@ -37,17 +40,23 @@ export default {
       type: Object,
       required: true,
     },
-    submitted: {
+    loading: {
       type: Boolean,
       required: true
     }
   },
   created() {
     let reviewData = {
-      domain: this.domain.domain.value,
-      email: this.administrator.email.value,
-      password: this.administrator.password.value,
-    };
+      ['domain']: {
+        value: this.domain.domain.value
+      },
+      ['admin_email']: {
+        value: this.administrator.email.value
+      },
+      ['admin_password']: {
+        value: this.administrator.password.value,
+      }
+    }
     this.$emit('input', reviewData);
   },
   data() {

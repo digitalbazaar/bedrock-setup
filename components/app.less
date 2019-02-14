@@ -93,7 +93,7 @@ body {
 }
 
 .error-message,
-.success-message {
+.loading-message {
   color: #fff;
   padding: 10px;
   border-radius: 5px;
@@ -101,19 +101,46 @@ body {
 }
 
 .error-message {
-  background-color: #BB5555;;
+  background-color: #BB5555;
+}
+
+.loading-message {
+  background-color: @primary;
 }
 
 .error-input {
-  border-color: #BB5555;;
-}
-
-.success-message {
-  background-color: #21ba45;
+  border-color: #BB5555;
 }
 
 .width-100 {
   width: 100%;
+}
+
+/* Loader */
+.lds-dual-ring {
+  display: inline-block;
+  width: 64px;
+  height: 64px;
+  margin: auto;
+}
+.lds-dual-ring:after {
+  content: " ";
+  display: block;
+  width: 46px;
+  height: 46px;
+  margin: 1px;
+  border-radius: 50%;
+  border: 5px solid @primary;
+  border-color: @primary transparent @primary transparent;
+  animation: lds-dual-ring 1.2s linear infinite;
+}
+@keyframes lds-dual-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 /* Media Queries */
