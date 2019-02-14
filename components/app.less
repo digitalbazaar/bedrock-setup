@@ -8,8 +8,37 @@
 @secondary: #D86D6D;
 @tertiary: #FFB9B9;
 
+.bg-red-main {
+  background-color: @primary !important;
+}
+
+.text-red-main {
+  color: @primary !important;
+}
+
+.border-red-main {
+  border: 1px solid @primary !important;
+}
+
+.dot li {
+  background-color: @tertiary !important;
+}
+
+.dot .is-active {
+  background-color: @primary !important;
+}
+
+
+/* Main App CSS */
 body {
   color: #222;
+}
+
+.background {
+  background-image: url('/images/stepper-background.svg');
+  background-repeat: no-repeat;
+  background-position: center top;
+  background-attachment: fixed;
 }
 
 .input-box {
@@ -81,6 +110,10 @@ body {
 
 .success-message {
   background-color: #21ba45;
+}
+
+.width-100 {
+  width: 100%;
 }
 
 /* Media Queries */
