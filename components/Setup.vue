@@ -1,29 +1,30 @@
 <template>
   <br-wizard
-    :steps="steps"
+    :steps="setupProcess.steps"
     :blockNext="blockNext"
     :blockBack="blockBack"
     :blockFinish="blockFinish"
     @back="back($event)"
     @next="next($event)"
     @finish="finish($event)"
-    @index="stepIndex = $event">
+    @index="stepIndex = $event"
+    v-if="setupLoader === false">
     <template slot="step">
       <welcome
-        v-if="steps[stepIndex].name === 'Welcome'"
-        :steps="steps"/>
+        v-if="setupProcess.steps[stepIndex].name === 'Welcome'"
+        :steps="setupProcess.steps"/>
       <domain
-        v-if="steps[stepIndex].name === 'Domain'"
+        v-if="setupProcess.steps[stepIndex].name === 'Domain'"
         v-model="domainData"
         @blocker="blockNext = $event"
         ref="domain" />
       <administrator
-        v-if="steps[stepIndex].name === 'Administrator'"
+        v-if="setupProcess.steps[stepIndex].name === 'Administrator'"
         v-model="adminData"
         @blocker="blockNext = $event"
         ref="administrator" />
       <review
-        v-if="steps[stepIndex].name === 'Review'"
+        v-if="setupProcess.steps[stepIndex].name === 'Review'"
         v-model="reviewData"
         :domain="domainData"
         :administrator="adminData"
@@ -37,14 +38,11 @@
  */
 'use strict';
 
-
-import axios from 'axios';
 import {BrWizard, Welcome} from 'bedrock-vue-wizard';
 import Domain from './Domain.vue';
 import Administrator from './Administrator.vue';
 import Review from './Review.vue';
 import {SetupService} from './SetupService.js';
-import setupExample from '../setup-example.json';
 
 export default {
   name: 'Setup',
@@ -52,6 +50,7 @@ export default {
   async mounted() {
     this.setupService = new SetupService();
     this.setupProcess = await this.setupService.get();
+    this.setupLoader = false;
   },
   data() {
     return {
@@ -59,11 +58,15 @@ export default {
       blockBack: false,
       blockFinish: false,
       loading: false,
+      setupLoader: true,
       stepIndex: 0,
       domainData: {},
       adminData: {},
       reviewData: {},
-      steps: setupExample.steps
+      setupProcess: {
+        product: '',
+        steps: {}
+      }
     };
   },
   methods: {
@@ -105,4 +108,7 @@ export default {
 
 </script>
 <style>
+[v-cloak] {
+  display: none;
+}
 </style>

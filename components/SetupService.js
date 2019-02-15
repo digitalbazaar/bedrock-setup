@@ -28,5 +28,4 @@ export class SetupService {
     const response = await axios.post(url, config);
     return response.data;
   }
-
 }
