@@ -44,6 +44,7 @@ import Domain from './Domain.vue';
 import Administrator from './Administrator.vue';
 import Review from './Review.vue';
 import {SetupService} from './SetupService.js';
+import setupExample from '../setup-example.json';
 
 export default {
   name: 'Setup',
@@ -62,30 +63,7 @@ export default {
       domainData: {},
       adminData: {},
       reviewData: {},
-      steps: [{
-        name: 'Welcome',
-        icon: '/images/stepper-welcome-icon.svg',
-        heading: 'Welcome to the setup process for Product Name',
-        subheading: 'The following steps will help you install the software:'
-      }, {
-        name: 'Domain',
-        icon: '/images/stepper-domain-icon.svg',
-        heading: '',
-        subheading: 'During this step, you will verify that the detected ' +
-          'domain is appropriate'
-      }, {
-        name: 'Administrator',
-        icon: '/images/stepper-person-icon.svg',
-        heading: '',
-        subheading: 'This step is used to configure the administrator ' +
-          'account for this system'
-      }, {
-        name: 'Review',
-        icon: '/images/stepper-review-icon.svg',
-        heading: '',
-        subheading: 'Please review the information you entered and then ' +
-          'complete the setup process'
-      }]
+      steps: setupExample.steps
     };
   },
   methods: {
