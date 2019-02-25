@@ -1,28 +1,28 @@
 <template>
   <br-wizard
+    v-if="setupLoader === false"
     :steps="setupProcess.steps"
-    :blockNext="blockNext"
-    :blockBack="blockBack"
-    :blockFinish="blockFinish"
+    :block-next="blockNext"
+    :block-back="blockBack"
+    :block-finish="blockFinish"
     @back="back($event)"
     @next="next($event)"
     @finish="finish($event)"
-    @index="stepIndex = $event"
-    v-if="setupLoader === false">
+    @index="stepIndex = $event">
     <template slot="step">
       <welcome
         v-if="setupProcess.steps[stepIndex].name === 'Welcome'"
-        :steps="setupProcess.steps"/>
+        :steps="setupProcess.steps" />
       <domain
         v-if="setupProcess.steps[stepIndex].name === 'Domain'"
+        ref="domain"
         v-model="domainData"
-        @blocker="blockNext = $event"
-        ref="domain" />
+        @blocker="blockNext = $event" />
       <administrator
         v-if="setupProcess.steps[stepIndex].name === 'Administrator'"
+        ref="administrator"
         v-model="adminData"
-        @blocker="blockNext = $event"
-        ref="administrator" />
+        @blocker="blockNext = $event" />
       <review
         v-if="setupProcess.steps[stepIndex].name === 'Review'"
         v-model="reviewData"
@@ -47,11 +47,6 @@ import {SetupService} from './SetupService.js';
 export default {
   name: 'Setup',
   components: {BrWizard, Welcome, Domain, Administrator, Review},
-  async mounted() {
-    this.setupService = new SetupService();
-    this.setupProcess = await this.setupService.get();
-    this.setupLoader = false;
-  },
   data() {
     return {
       blockNext: false,
@@ -69,6 +64,11 @@ export default {
       }
     };
   },
+  async mounted() {
+    this.setupService = new SetupService();
+    this.setupProcess = await this.setupService.get();
+    this.setupLoader = false;
+  },
   methods: {
     next(event) {
       console.log('next was triggered in the wizard', event);
@@ -81,7 +81,6 @@ export default {
       console.log('do something to submit the things!', event);
       console.log('SUBMIT', this.reviewData);
       const flatConfig = Object.keys(this.reviewData).reduce((acc, key) => {
-        console.log('ACC & KEY', acc, key)
         return {
           ...acc,
           [key]: this.reviewData[key].value
@@ -96,7 +95,6 @@ export default {
     refreshAfterRestart() {
       setTimeout(async () => {
         try {
-          const response = await axios.get('/');
           window.location.replace(window.location);
         } catch(err) {
           this.refreshAfterRestart();

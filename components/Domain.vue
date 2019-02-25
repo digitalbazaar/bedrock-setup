@@ -1,9 +1,14 @@
 <template>
   <form class="column items-center width-100">
-    <input-box v-model="domain.value" :change="debounce(domain.value)" 
-    :invalid="$v.domain.value.$invalid" :error="domain.error" :typing="typing" 
-    :errorMessage="domain.errorMessage" :placeholder="inputPlaceholder" 
-    :description="inputDescription"></input-box>
+    <input-box
+      v-model="domain.value"
+      :change="debounce(domain.value)"
+      :invalid="$v.domain.value.$invalid"
+      :error="domain.error"
+      :typing="typing"
+      :error-message="domain.errorMessage"
+      :placeholder="inputPlaceholder"
+      :description="inputDescription" />
   </form>
 </template>
 <script>
@@ -13,7 +18,7 @@
 'use strict';
 
 import InputBox from './InputBox.vue';
-import {required, email, helpers} from 'vuelidate/lib/validators';
+import {required, helpers} from 'vuelidate/lib/validators';
 import pDebounce from 'p-debounce';
 
 const domainName = helpers.regex('domainName', /^(((?!-))(xn--|_{1,1})?[a-z0-9-]{0,61}[a-z0-9]{1,1}\.)*(xn--)?([a-z0-9\-]{1,61}|[a-z0-9-]{1,30}\.[a-z]{2,})$/);
@@ -39,12 +44,6 @@ export default {
       inputDescription: 'The fully qualified domain name for this server',
     };
   },
-  created() {
-    if(Object.keys(this.value).length !== 0) {
-      this.domain = this.value.domain;
-    }
-    this.$emit('blocker', true);
-  },
   watch: {
     '$v.domain.value.$invalid': function() {
       if(this.$v.domain.value.$invalid) {
@@ -52,6 +51,12 @@ export default {
       }
       this.$emit('blocker', false);
     }
+  },
+  created() {
+    if(Object.keys(this.value).length !== 0) {
+      this.domain = this.value.domain;
+    }
+    this.$emit('blocker', true);
   },
   methods: {
     debounce: pDebounce(async function(value) {
@@ -62,15 +67,12 @@ export default {
     errorCheck() {
       if(this.$v.domain.value.$invalid) {
         this.domain.error = true;
-        return this.domainError;
+        return this.domainError();
       }
       this.domain.error = false;
       const domainData = {domain: this.domain};
       this.$emit('input', domainData);
-    }
-    
-  },
-  computed: {
+    },
     domainError() {
       if(!this.$v.domain.value.domainName) {
         this.domain.errorMessage =
