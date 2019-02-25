@@ -1,6 +1,5 @@
 <template>
   <q-layout>
-
     <q-layout-header>
       <q-toolbar>
         <q-toolbar-title
@@ -8,17 +7,14 @@
           <strong>{{title}}</strong>
           <span v-if="subtitle">| {{subtitle}}</span>
         </q-toolbar-title>
-
       </q-toolbar>
     </q-layout-header>
 
     <q-page-container style="overflow: auto">
-      <router-view/>
+      <router-view />
     </q-page-container>
 
-    <q-layout-footer>
-    </q-layout-footer>
-
+    <q-layout-footer />
   </q-layout>
 </template>
 <script>
@@ -32,11 +28,6 @@ import {getRootData} from './rootData.js';
 
 export default {
   name: 'BrRoot',
-  async mounted() {
-    this.rootData = await getRootData();
-    this.session = await getSession();
-    await this.session.refresh();
-  },
   data() {
     return {
       rootData: null,
@@ -57,6 +48,11 @@ export default {
       }
       return this.rootData.title;
     }
+  },
+  async mounted() {
+    this.rootData = await getRootData();
+    this.session = await getSession();
+    await this.session.refresh();
   }
 };
 </script>
