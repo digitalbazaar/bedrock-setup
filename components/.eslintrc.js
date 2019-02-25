@@ -1,6 +1,8 @@
 module.exports = {
-  "env": {
-    "browser": true,
+  env: {
+    browser: true,
   },
-  "extends": ["eslint-config-digitalbazaar/vue"],
+  extends: [
+    'eslint-config-digitalbazaar/vue',
+  ],
 };

@@ -1,7 +1,9 @@
 module.exports = {
-  "root": true,
-  "env": {
-      "commonjs": true,
+  root: true,
+  env: {
+    node: true,
   },
-  "extends": ["eslint-config-digitalbazaar"] 
+  extends: [
+    'eslint-config-digitalbazaar',
+  ],
 };
