@@ -1,31 +1,31 @@
 /*!
  * Copyright (c) 2019 Digital Bazaar, Inc. All rights reserved.
  */
-@fa-font-path: "@{bedrock-module-path}/@fortawesome/fontawesome-free-webfonts/webfonts";
+$fa-font-path: "@{bedrock-module-path}/@fortawesome/fontawesome-free-webfonts/webfonts";
 
-/* Changes backaground, button & step tracker colors */
-@primary: #BB5555;
-@secondary: #D86D6D;
-@tertiary: #FFB9B9;
+/* Changes background, button & step tracker colors */
+$primary: #BB5555;
+$secondary: #D86D6D;
+$tertiary: #FFB9B9;
 
-.bg-red-main {
-  background-color: @primary !important;
+.bg-primary-main {
+  background-color: $primary !important;
 }
 
-.text-red-main {
-  color: @primary !important;
+.text-primary-main {
+  color: $primary !important;
 }
 
-.border-red-main {
-  border: 1px solid @primary !important;
+.border-primary-main {
+  border: 1px solid $primary !important;
 }
 
 .dot li {
-  background-color: @tertiary !important;
+  background-color: $tertiary !important;
 }
 
 .dot .is-active {
-  background-color: @primary !important;
+  background-color: $primary !important;
 }
 
 
@@ -105,7 +105,7 @@ body {
 }
 
 .loading-message {
-  background-color: @primary;
+  background-color: $primary;
 }
 
 .error-input {
@@ -130,8 +130,8 @@ body {
   height: 46px;
   margin: 1px;
   border-radius: 50%;
-  border: 5px solid @primary;
-  border-color: @primary transparent @primary transparent;
+  border: 5px solid $primary;
+  border-color: $primary transparent $primary transparent;
   animation: lds-dual-ring 1.2s linear infinite;
 }
 @keyframes lds-dual-ring {

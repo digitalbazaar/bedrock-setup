@@ -1,15 +1,20 @@
 <template>
   <br-wizard
     v-if="setupLoader === false"
-    :steps="setupProcess.steps"
     :block-next="blockNext"
     :block-back="blockBack"
     :block-finish="blockFinish"
+    :current-step-index="stepIndex"
+    :total-steps="setupProcess.steps.length"
     @back="back($event)"
     @next="next($event)"
     @finish="finish($event)"
     @index="stepIndex = $event">
-    <template slot="step">
+    <br-wizard-step
+      :heading="currentStep.heading"
+      :image="currentStep.image"
+      :icon="currentStep.icon"
+      :subheading="currentStep.subheading">
       <welcome
         v-if="setupProcess.steps[stepIndex].name === 'Welcome'"
         :steps="setupProcess.steps" />
@@ -29,7 +34,7 @@
         :domain="domainData"
         :administrator="adminData"
         :loading="loading" />
-    </template>
+    </br-wizard-step>
   </br-wizard>
 </template>
 <script>
@@ -38,7 +43,7 @@
  */
 'use strict';
 
-import {BrWizard, Welcome} from 'bedrock-vue-wizard';
+import {BrWizard, BrWizardStep, Welcome} from 'bedrock-vue-wizard';
 import Domain from './Domain.vue';
 import Administrator from './Administrator.vue';
 import Review from './Review.vue';
@@ -46,7 +51,7 @@ import {SetupService} from './SetupService.js';
 
 export default {
   name: 'Setup',
-  components: {BrWizard, Welcome, Domain, Administrator, Review},
+  components: {BrWizard, BrWizardStep, Welcome, Domain, Administrator, Review},
   data() {
     return {
       blockNext: false,
@@ -64,7 +69,12 @@ export default {
       }
     };
   },
-  async mounted() {
+  computed: {
+    currentStep() {
+      return this.setupProcess.steps[this.stepIndex];
+    }
+  },
+  async created() {
     this.setupService = new SetupService();
     this.setupProcess = await this.setupService.get();
     this.setupLoader = false;
