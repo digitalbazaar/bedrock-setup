@@ -1,17 +1,29 @@
 <template>
   <div class="width-100">
     <div class="row justify-center width-100 wrap items-center">
-      <h5 class="col text-right width-450 text-dark-gray q-pr-lg q-mt-sm q-mb-sm">Domain:</h5><h5 class="col text-left width-450 text-dark-gray q-pl-lg q-mt-sm q-mb-sm overflow">{{domain.domain.value}}</h5>
+      <h5 class="col text-right width-450 text-dark-gray
+      q-pr-lg q-mt-sm q-mb-sm">Domain:</h5>
+      <h5 class="col text-left width-450 text-dark-gray
+      q-pl-lg q-mt-sm q-mb-sm overflow">{{domain.domain.value}}</h5>
     </div>
     <div class="row justify-center width-100 wrap items-center">
-      <h5 class="col text-right width-450 text-dark-gray q-pr-lg q-mt-sm q-mb-sm">Administrator:</h5><h5 class="col text-left width-450 text-dark-gray q-pl-lg q-mt-sm q-mb-sm overflow">{{administrator.email.value}}</h5>
+      <h5 class="col text-right width-450 text-dark-gray
+      q-pr-lg q-mt-sm q-mb-sm">Administrator:</h5>
+      <h5 class="col text-left width-450 text-dark-gray
+      q-pl-lg q-mt-sm q-mb-sm overflow">{{administrator.email.value}}</h5>
     </div>
     <div class="row justify-center width-100">
-      <h5 class="col text-right width-450 text-dark-gray q-pr-lg q-mt-sm q-mb-sm">Password:</h5><input @click="revealPassword()" :type="passwordReveal" :value="administrator.password.value" readonly class="col read-input">
+      <h5 class="col text-right width-450 text-dark-gray
+      q-pr-lg q-mt-sm q-mb-sm">Password:</h5>
+      <input @click="revealPassword()" :type="passwordReveal"
+      :value="administrator.password.value" readonly class="col read-input">
     </div>
-    <div v-if="loading === true" class="width-100 q-mt-sm row items-center justify-between">
+    <div v-if="loading === true" 
+    class="width-100 q-mt-sm row items-center justify-between">
       <div class="lds-dual-ring col-2"></div>
-      <div class="loading-message col-9">Your account is being created. This may take a few minutes.</div>
+      <div class="loading-message col-9">
+        Your account is being created. This may take a few minutes.
+      </div>
     </div>
   </div>
 </template>
