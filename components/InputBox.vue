@@ -1,15 +1,26 @@
 <template>
   <div class="q-mt-md q-mb-md width-100">
     <div>
-      <input :change="update(value)" v-model="value" @input="typing = true" 
-      :type="type" :placeholder="placeholder" class="input-box" 
-      :class="{'error-input':
-      invalid && error && typing === false}"><password-toggle-button 
-      v-if="icon" @toggle="toggle()" :type="type"></password-toggle-button>
-      <p class="small-text text-dark-gray q-mt-xs q-mb-none">{{description}}</p>
+      <input
+        v-model="value"
+        :change="update(value)"
+        :type="type"
+        :placeholder="placeholder"
+        class="input-box"
+        :class="{'error-input': invalid && error && typing === false}"
+        @input="typing = true"><password-toggle-button
+          v-if="icon"
+          :type="type"
+          @toggle="toggle()" />
+      <p class="small-text text-dark-gray q-mt-xs q-mb-none">
+        {{description}}
+      </p>
     </div>
-    <div v-if="invalid && error && typing === false" 
-    class="error-message width-100 q-mt-sm">{{errorMessage}}</div>
+    <div
+      v-if="invalid && error && typing === false"
+      class="error-message width-100 q-mt-sm">
+      {{errorMessage}}
+    </div>
   </div>
 </template>
 <script>
@@ -70,10 +81,10 @@ export default {
   },
   methods: {
     update(value) {
-      this.$emit('input', this.value);
+      this.$emit('input', value);
     },
     toggle() {
-      this.$emit('toggle')
+      this.$emit('toggle');
     }
   }
 };

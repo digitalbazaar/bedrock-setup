@@ -1,6 +1,8 @@
 <template>
-  <span @click="toggle()" :class="{'hide-password': type === 'password', 
-  'show-password': type === 'text'}"></span>
+  <span
+    :class="{'hide-password': type === 'password',
+             'show-password': type === 'text'}"
+    @click="toggle()" />
   <!-- <span @click="toggle()" :class="type"></span> -->
 </template>
 <script>
@@ -14,12 +16,12 @@ export default {
   props: {
     type: {
       type: Boolean,
-      required: true 
+      required: true
     }
   },
   methods: {
     toggle() {
-      this.$emit('toggle')
+      this.$emit('toggle');
     }
   }
 };
