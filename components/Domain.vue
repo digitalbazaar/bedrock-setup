@@ -1,6 +1,9 @@
 <template>
   <form class="column items-center width-100">
-    <input-box v-model="domain.value" :change="debounce(domain.value)" :invalid="$v.domain.value.$invalid" :error="domain.error" :typing="typing" :errorMessage="domain.errorMessage" :placeholder="inputPlaceholder" :description="inputDescription"></input-box>
+    <input-box v-model="domain.value" :change="debounce(domain.value)" 
+    :invalid="$v.domain.value.$invalid" :error="domain.error" :typing="typing" 
+    :errorMessage="domain.errorMessage" :placeholder="inputPlaceholder" 
+    :description="inputDescription"></input-box>
   </form>
 </template>
 <script>

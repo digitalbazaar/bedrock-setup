@@ -1,8 +1,20 @@
 <template>
   <form class="column items-center width-100">
-    <input-box v-model="email.value" :change="debounceEmail(email.value)" :type="'text'" :invalid="$v.email.value.$invalid" :error="email.error" :errorMessage="email.errorMessage" :placeholder="inputPlaceholder.email" :description="inputDescription.email"></input-box>
-    <input-box v-model="password.value" :change="debouncePassword(password.value)" @toggle="togglePassword()" :type="passwordToggle" :icon="true" :invalid="$v.password.value.$invalid" :error="password.error" :errorMessage="password.errorMessage" :placeholder="inputPlaceholder.password" :description="inputDescription.password"></input-box>
-    <input-box v-model="verify.value" :change="debounceVerify(verify.value)" @toggle="toggleVerify()" :type="verifyToggle" :icon="true" :invalid="$v.verify.value.$invalid" :error="verify.error" :errorMessage="verify.errorMessage" :placeholder="inputPlaceholder.verify" :description="inputDescription.verify"></input-box>
+    <input-box v-model="email.value" :change="debounceEmail(email.value)"
+    :type="'text'" :invalid="$v.email.value.$invalid" :error="email.error"
+    :errorMessage="email.errorMessage" :placeholder="inputPlaceholder.email"
+    :description="inputDescription.email"></input-box>
+    <input-box v-model="password.value"
+    :change="debouncePassword(password.value)" @toggle="togglePassword()"
+    :type="passwordToggle" :icon="true" :invalid="$v.password.value.$invalid"
+    :error="password.error" :errorMessage="password.errorMessage"
+    :placeholder="inputPlaceholder.password"
+    :description="inputDescription.password"></input-box>
+    <input-box v-model="verify.value" :change="debounceVerify(verify.value)"
+    @toggle="toggleVerify()" :type="verifyToggle" :icon="true"
+    :invalid="$v.verify.value.$invalid" :error="verify.error"
+    :errorMessage="verify.errorMessage" :placeholder="inputPlaceholder.verify"
+    :description="inputDescription.verify"></input-box>
   </form>
 </template>
 <script>
@@ -15,7 +27,8 @@ import InputBox from './InputBox.vue';
 import {required, email, helpers} from 'vuelidate/lib/validators';
 import pDebounce from 'p-debounce';
 
-const strongPassword = helpers.regex('strongPassword', /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{16,})/);
+const strongPassword = helpers.regex('strongPassword',
+/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{16,})/);
 
 export default {
   name: 'Administrator',
@@ -123,7 +136,9 @@ export default {
       this.validateForm();
     },
     validateForm() {
-      if(!this.$v.email.value.$invalid && !this.$v.password.value.$invalid && !this.$v.verify.value.$invalid) {
+      if(!this.$v.email.value.$invalid
+      && !this.$v.password.value.$invalid
+      && !this.$v.verify.value.$invalid) {
         this.$emit('blocker', false)
         let adminData = {
           email: this.email,
@@ -149,12 +164,15 @@ export default {
   computed: {
     emailError() {
       if(this.$v.email.value.$invalid) {
-        this.email.errorMessage = 'The email you entered is not a valid email address.';
+        this.email.errorMessage = 'The email you entered is not a valid ' +
+        'email address.';
       }
     },
     passwordError() {
       if(this.$v.password.value.$invalid) {
-        this.password.errorMessage = 'Your password must be at least 16 characters long, contain at least one number and have a mixture of uppercase and lowercase letters.';
+        this.password.errorMessage = 'Your password must be at least 16 ' + 
+        'characters long, contain at least one number and have a mixture ' + 
+        'of uppercase and lowercase letters.';
       }
     },
     verifyError() {

@@ -1,5 +1,6 @@
 <template>
-  <span @click="toggle()" :class="{'hide-password': type === 'password', 'show-password': type === 'text'}"></span>
+  <span @click="toggle()" :class="{'hide-password': type === 'password', 
+  'show-password': type === 'text'}"></span>
   <!-- <span @click="toggle()" :class="type"></span> -->
 </template>
 <script>
