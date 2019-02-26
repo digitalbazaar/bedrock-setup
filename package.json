@@ -33,10 +33,9 @@
     "vuelidate": "^0.7.3"
   },
   "devDependencies": {
-    "bedrock-test": "^2.0.0",
-    "eslint": "^5.12.1",
+    "eslint": "^5.14.1",
     "eslint-config-digitalbazaar": "^1.7.0",
-    "eslint-plugin-vue": "^5.1.0"
+    "eslint-plugin-vue": "^5.2.2"
   },
   "bedrock": {
     "browserDependencies": [
@@ -67,10 +66,5 @@
   },
   "engines": {
     "node": ">=8.9.0"
-  },
-  "devDependencies": {
-    "eslint": "^5.14.1",
-    "eslint-config-digitalbazaar": "^1.7.0",
-    "eslint-plugin-vue": "^5.2.2"
   }
 }
