@@ -8,27 +8,6 @@ $primary: #BB5555;
 $secondary: #D86D6D;
 $tertiary: #FFB9B9;
 
-.bg-primary-main {
-  background-color: $primary !important;
-}
-
-.text-primary-main {
-  color: $primary !important;
-}
-
-.border-primary-main {
-  border: 1px solid $primary !important;
-}
-
-.dot li {
-  background-color: $tertiary !important;
-}
-
-.dot .is-active {
-  background-color: $primary !important;
-}
-
-
 /* Main App CSS */
 body {
   color: #222;
