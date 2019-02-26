@@ -8,11 +8,10 @@
         :placeholder="placeholder"
         class="input-box"
         :class="{'error-input': invalid && error && typing === false}"
-        @input="typing = true">
-      <password-toggle-button
-        v-if="icon"
-        :type="type"
-        @toggle="toggle()" />
+        @input="typing = true"><password-toggle-button
+          v-if="icon"
+          :type="type"
+          @toggle="toggle()" />
       <p class="small-text text-dark-gray q-mt-xs q-mb-none">
         {{description}}
       </p>
