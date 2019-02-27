@@ -20,7 +20,7 @@
     "bedrock-validation": "^4.0.0",
     "bedrock-views": "^6.0.0",
     "bedrock-vue": "^1.0.0",
-    "bedrock-vue-wizard": "digitalbazaar/bedrock-vue-wizard#refactor-wizard",
+    "bedrock-vue-wizard": "^2.0.0",
     "bedrock-web": "^1.0.0",
     "bedrock-web-session": "^1.1.0",
     "bedrock-web-store": "^1.1.1",
