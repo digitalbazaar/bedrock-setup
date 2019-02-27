@@ -9,7 +9,7 @@
     "postinstall": "node --preserve-symlinks setup.localhost.js compile-less"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-free-webfonts": "^1.0.8",
+    "@fortawesome/fontawesome-free": "^5.7.2",
     "animate.css": "^3.6.1",
     "axios": "^0.18.0",
     "bedrock": "^1.12.1",
@@ -40,7 +40,7 @@
   },
   "bedrock": {
     "browserDependencies": [
-      "@fortawesome/fontawesome-free-webfonts",
+      "@fortawesome/fontawesome-free",
       "animate.css",
       "bedrock-quasar",
       "bedrock-vue",
@@ -56,11 +56,12 @@
       "axios": {
         "main": "dist/axios.min.js"
       },
-      "@fortawesome/fontawesome-free-webfonts": {
+      "@fortawesome/fontawesome-free": {
+        "main": null,
         "less": [
           "less/fontawesome.less",
-          "less/fa-regular.less",
-          "less/fa-solid.less"
+          "less/regular.less",
+          "less/solid.less"
         ]
       }
     }
