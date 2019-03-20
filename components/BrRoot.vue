@@ -1,6 +1,6 @@
 <template>
   <q-layout>
-    <q-layout-header>
+    <q-header>
       <q-toolbar>
         <q-toolbar-title
           @click.native="goHome()">
@@ -8,13 +8,11 @@
           <span v-if="subtitle">| {{subtitle}}</span>
         </q-toolbar-title>
       </q-toolbar>
-    </q-layout-header>
-
+    </q-header>
     <q-page-container style="overflow: auto">
       <router-view />
     </q-page-container>
-
-    <q-layout-footer />
+    <q-footer />
   </q-layout>
 </template>
 <script>
