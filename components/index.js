@@ -1,7 +1,6 @@
-/*!
+/*
  * Copyright (c) 2019 Digital Bazaar, Inc. All rights reserved.
  */
-/* global window */
 'use strict';
 
 import * as brVue from 'bedrock-vue';
@@ -26,8 +25,8 @@ brVue.setRootVue(async () => {
   ] = await Promise.all([
     import('bedrock-web-store'),
     import('bedrock-quasar'),
-    import('quasar-framework'),
-    import('quasar-framework/icons/fontawesome'),
+    import('quasar'),
+    import('quasar/icon-set/fontawesome-v5'),
     import('vue-async-computed'),
     import('vuelidate'),
     import('./rootData.js')
@@ -78,7 +77,7 @@ brVue.setRootVue(async () => {
   });
 
   // configure quasar
-  Quasar.icons.set(iconSet);
+  Quasar.iconSet.set(iconSet);
   brQuasar.theme({
     Quasar,
     brand: defaultBrand
