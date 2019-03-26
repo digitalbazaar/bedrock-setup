@@ -3,7 +3,12 @@
     class="column gutter-md background"
     padding>
     <div class="column items-center">
-      <setup />
+      <br-setup-wizard
+        :flow="flow"
+        :vocab="vocab"
+        :config-template="configTemplate"
+        :review-template="reviewTemplate"
+        @finish="finish($event)" />
     </div>
   </q-page>
 </template>
@@ -13,11 +18,60 @@
  */
 'use strict';
 
-import Setup from './Setup.vue';
+import BrSetupWizard from './BrSetupWizard.vue';
+import {SetupService} from './SetupService.js';
 
 export default {
   name: 'Home',
-  components: {Setup}
+  components: {BrSetupWizard},
+  data() {
+    return {
+      flow: [],
+      vocab: {},
+      configTemplate: {},
+      reviewTemplate: {},
+      flowLoaded: false,
+      loading: false
+    };
+  },
+  async created() {
+    this.setupService = new SetupService();
+    const setupData = await this.setupService.get();
+    const {flow, vocab, configTemplate, reviewTemplate} = setupData;
+    this.flow = flow;
+    this.vocab = vocab;
+    this.configTemplate = configTemplate;
+    this.reviewTemplate = reviewTemplate;
+    this.flowLoaded = true;
+
+    // FIXME: set defaults for flow data
+    //flow[0].model.domain = window.location.origin;
+  },
+  methods: {
+    finish(event) {
+      event.waitUntil(this.storeConfig(event.config));
+    },
+    async storeConfig(config) {
+      try {
+        this.loading = true;
+        console.log('finished', config);
+        //await this.setupService.store(config);
+        // FIXME: await restart
+        //this.refreshAfterRestart();
+      } finally {
+        this.loading = false;
+      }
+    },
+    refreshAfterRestart() {
+      setTimeout(async () => {
+        try {
+          window.location.replace(window.location);
+        } catch(err) {
+          this.refreshAfterRestart();
+        }
+      }, 3000);
+    }
+  }
 };
 
 </script>
