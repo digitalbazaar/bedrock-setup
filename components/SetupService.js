@@ -32,7 +32,16 @@ export class SetupService {
           },
           schema: {
             domain: {
-              placeholder: 'Your domain'
+              placeholder: 'Your domain',
+              validation: {
+                // TODO: also support IP address
+                regex:
+                  '^(((?!-))(xn--|_{1,1})?[a-z0-9-]{0,61}[a-z0-9]{1,1}\.)*' +
+                  '(xn--)?([a-z0-9\-]{1,61}|[a-z0-9-]{1,30}\.[a-z]{2,})$',
+                errors: {
+                  invalid: 'The domain you entered is invalid.'
+                }
+              }
             }
           }
         }
@@ -54,7 +63,41 @@ export class SetupService {
           },
           schema: {
             email: {
-              placeholder: 'Admin email address'
+              placeholder: 'Admin email address',
+              validation: {
+                required: true,
+                regex:
+                  '^[-a-zA-Z0-9~!$%^&*_=+}{\\\'?]+(\\.[-a-zA-Z0-9~!$%^&*_=+}' +
+                  '{\\\'?]+)*@(((([a-zA-Z0-9]{1}[a-zA-Z0-9\\-]{0,62}' +
+                  '[a-zA-Z0-9]{1})|[a-zA-Z])\\.)+[a-zA-Z]{2,6})$',
+                errors: {
+                  invalid: 'The email you entered is not a valid email address.'
+                }
+              }
+            },
+            password: {
+              validation: {
+                regex: '^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{16,})',
+                required: true,
+                errors: {
+                  invalid: 'Password is required.',
+                  regex: 'Your password must be at least 16 characters long, ' +
+                    'contain at least one number and have a mixture ' +
+                    'of uppercase and lowercase letters.'
+                }
+              }
+            },
+            passwordConfirmation: {
+              validation: {
+                regex: '^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{16,})',
+                required: true,
+                match: 'password',
+                errors: {
+                  invalid: 'Password confirmation is required.',
+                  required: 'Password confirmation is required.',
+                  match: 'Passwords do not match.'
+                }
+              }
             }
           }
         }
@@ -73,12 +116,12 @@ export class SetupService {
         password: {
           range: 'string',
           label: 'Password',
-          inputType: 'password'
+          inputType: 'masked'
         },
         passwordConfirmation: {
           range: 'string',
-          label: 'Confirm',
-          inputType: 'password'
+          label: 'Confirm Password',
+          inputType: 'masked'
         }
       },
       configTemplate: `{
