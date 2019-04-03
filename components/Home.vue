@@ -44,8 +44,8 @@ export default {
     this.reviewTemplate = reviewTemplate;
     this.flowLoaded = true;
 
-    // FIXME: set defaults for flow data
-    //flow[0].model.domain = window.location.origin;
+    // TODO: enable a flow template for generating default values from
+    // environment variables like `window.location.origin`?
   },
   methods: {
     finish(event) {
