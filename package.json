@@ -4,6 +4,7 @@
   "private": true,
   "main": "lib",
   "browser": "index.js",
+  "less": "app.less",
   "scripts": {
     "start": "node --preserve-symlinks setup.localhost.js",
     "postinstall": "node --preserve-symlinks setup.localhost.js compile-less"
@@ -35,6 +36,7 @@
     "vuelidate": "^0.7.4"
   },
   "devDependencies": {
+    "babel-eslint": "^10.0.1",
     "bedrock-test": "^2.0.0",
     "eslint": "^5.12.1",
     "eslint-config-digitalbazaar": "^1.7.0",
