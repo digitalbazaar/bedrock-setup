@@ -2,6 +2,8 @@
   <br-wizard
     :current-step-index="stepIndex"
     :total-steps="steps.length"
+    :block-next="blockNext"
+    :block-finish="blockNext"
     @next="next($event)"
     @finish="finish($event)"
     @index="stepIndex = $event">
@@ -19,6 +21,7 @@
           :sections="review" />
         <form v-if="currentStep.form">
           <br-q-form-generator
+            ref="form"
             v-model="currentStep.form.model"
             :vocab="vocab"
             :schema="currentStep.form.schema" />
@@ -72,40 +75,18 @@ export default {
     return {
       config: {},
       review: [],
-      stepIndex: 0,
-      welcomeStep: {
-        icon: {
-          name: 'fas fa-walking',
-          size: '65px',
-          color: 'primary'
-        },
-        heading: 'Welcome to the setup process for PRODUCT',
-        subheading: 'The following steps will help you install the software:',
-        name: 'Introduction'
-      },
-      reviewStep: {
-        icon: {
-          name: 'fas fa-check-circle',
-          size: '65px',
-          color: 'primary'
-        },
-        heading: '',
-        subheading: 'Please review the information you entered and then ' +
-          'click "Finish" to complete the setup process.',
-        name: 'Review'
-      }
+      stepIndex: 0
     };
   },
   computed: {
     currentStep() {
-      return this.steps[this.stepIndex];
+      return this.steps[this.stepIndex] || {};
     },
     lastStepIndex() {
       return this.steps.length - 1;
     },
     steps() {
       const {flow} = this;
-      const steps = [this.welcomeStep, ...flow, this.reviewStep];
       // generate default model for each flow if a model template is given
       for(const step of flow) {
         const {form} = step;
@@ -113,13 +94,24 @@ export default {
           continue;
         }
         if(form.modelTemplate) {
-          form.model = {
-            ...(form.model || {}),
-            ...jsonata(form.modelTemplate).evaluate({window})
-          };
+          try {
+            form.model = {
+              ...(form.model || {}),
+              ...jsonata(form.modelTemplate).evaluate({window})
+            };
+          } catch(e) {
+            console.error(`Error with form "${form.id}" model template:`, e);
+            throw e;
+          }
         }
       }
-      return steps;
+      return flow;
+    },
+    blockNext() {
+      if(this.currentStep.form && this.$refs.form && this.$refs.form.$v) {
+        return this.$refs.form.$v.$invalid;
+      }
+      return false;
     }
   },
   methods: {
@@ -154,9 +146,13 @@ function applyTemplates({flow, templates, env}) {
   // 2. Create template output.
   const result = {};
   for(const key in templates) {
-    result[key] = jsonata(templates[key]).evaluate({...data, ...env});
+    try {
+      result[key] = jsonata(templates[key]).evaluate({...data, ...env});
+    } catch(e) {
+      console.error(`Error with template "${key}Template":`, e);
+      throw e;
+    }
   }
-  console.log('result', result);
   return result;
 }
 

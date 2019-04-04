@@ -1,24 +1,126 @@
 {
-  "product": "Product Name",
-  "steps": [{
-    "name": "Welcome",
-    "image": "/images/stepper-welcome-icon.svg",
-    "heading": "Welcome to the setup process for Product Name",
-    "subheading": "The following steps will help you install the software:"
-  }, {
-    "name": "Domain",
-    "image": "/images/stepper-domain-icon.svg",
-    "heading": "",
-    "subheading": "During this step, you will verify that the detected domain is appropriate"
-  }, {
-    "name": "Administrator",
-    "image": "/images/stepper-person-icon.svg",
-    "heading": "",
-    "subheading": "This step is used to configure the administrator account for this system"
-  }, {
-    "name": "Review",
-    "image": "/images/stepper-review-icon.svg",
-    "heading": "",
-    "subheading": "Please review the information you entered and then complete the setup process"
-  }]
+  "flow": [
+    {
+      "icon": {
+        "name": "fas fa-walking",
+        "size": "65px",
+        "color": "primary"
+      },
+      "heading": "Welcome to the setup process for PRODUCT",
+      "subheading": "The following steps will help you install the software:",
+      "name": "Introduction"
+    },
+    {
+      "icon": {
+        "name": "far fa-list-alt",
+        "size": "65px",
+        "color": "primary"
+      },
+      "heading": "FIXME Domain info",
+      "name": "FIXME Domain",
+      "form": {
+        "id": "domain",
+        "model": {
+          "domain": ""
+        },
+        "modelTemplate": "{\n\"domain\": window.location.host}",
+        "schema": {
+          "domain": {
+            "placeholder": "Your domain",
+            "validation": {
+              "regex": "^(((?!-))(xn--|_{1,1})?[a-z0-9-]{0,61}[a-z0-9]{1,1}.)*(xn--)?([a-z0-9-]{1,61}|[a-z0-9-]{1,30}.[a-z]{2,})$",
+              "errors": {
+                "invalid": "The domain you entered is invalid."
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "icon": {
+        "name": "fas fa-map-marker-alt",
+        "size": "65px",
+        "color": "primary"
+      },
+      "heading": "FIXME Administrator",
+      "name": "FIXME Admin info",
+      "form": {
+        "id": "admin",
+        "model": {
+          "email": "",
+          "password": "",
+          "passwordConfirmation": ""
+        },
+        "schema": {
+          "email": {
+            "placeholder": "Admin email address",
+            "validation": {
+              "required": true,
+              "regex": "^[-a-zA-Z0-9~!$%^&*_=+}{\\'?]+(\\.[-a-zA-Z0-9~!$%^&*_=+}{\\'?]+)*@(((([a-zA-Z0-9]{1}[a-zA-Z0-9\\-]{0,62}[a-zA-Z0-9]{1})|[a-zA-Z])\\.)+[a-zA-Z]{2,6})$",
+              "errors": {
+                "invalid": "The email you entered is not a valid email address."
+              }
+            }
+          },
+          "password": {
+            "validation": {
+              "regex": "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{16,})",
+              "required": true,
+              "errors": {
+                "invalid": "Password is required.",
+                "regex": "Your password must be at least 16 characters long, contain at least one number and have a mixture of uppercase and lowercase letters."
+              }
+            }
+          },
+          "passwordConfirmation": {
+            "validation": {
+              "regex": "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{16,})",
+              "required": true,
+              "match": "password",
+              "errors": {
+                "invalid": "Password confirmation is required.",
+                "required": "Password confirmation is required.",
+                "match": "Passwords do not match."
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "icon": {
+        "name": "fas fa-check-circle",
+        "size": "65px",
+        "color": "primary"
+      },
+      "heading": "",
+      "subheading": "Please review the information you entered and then click \"Finish\" to complete the setup process.",
+      "name": "Review"
+    }
+  ],
+  "vocab": {
+    "domain": {
+      "range": "string",
+      "label": "Domain",
+      "inputType": "text"
+    },
+    "email": {
+      "range": "string",
+      "label": "Email",
+      "inputType": "email"
+    },
+    "password": {
+      "range": "string",
+      "label": "Password",
+      "inputType": "masked"
+    },
+    "passwordConfirmation": {
+      "range": "string",
+      "label": "Confirm Password",
+      "inputType": "masked"
+    }
+  },
+  "configTemplate": "{\n\"domain\": domain.domain, \"admin_email\":admin.email, \"admin_password\": admin.password}",
+  "reviewTemplate": "[{\n\"title\": \"Domain\", \"fields\": [{\"name\": \"Domain\", \"value\": domain.domain}]}, {\"title\": \"Administrator\", \"fields\": [{\"name\": \"Email\", \"value\": admin.email}]}]"
 }

@@ -3,7 +3,11 @@
     class="column gutter-md background"
     padding>
     <div class="column items-center">
+      <div v-if="loading">
+        Loading your new site...
+      </div>
       <br-setup-wizard
+        v-else
         :flow="flow"
         :vocab="vocab"
         :config-template="configTemplate"
@@ -51,13 +55,12 @@ export default {
     async storeConfig(config) {
       try {
         this.loading = true;
-        console.log('finished', config);
-        //await this.setupService.store(config);
-        // FIXME: await restart
-        //this.refreshAfterRestart();
-      } finally {
+        await this.setupService.store(config);
+      } catch(e) {
         this.loading = false;
+        throw e;
       }
+      this.refreshAfterRestart();
     },
     refreshAfterRestart() {
       setTimeout(async () => {
