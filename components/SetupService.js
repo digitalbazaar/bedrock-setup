@@ -30,6 +30,9 @@ export class SetupService {
           model: {
             domain: ''
           },
+          modelTemplate: `{
+            "domain": window.location.host
+          }`,
           schema: {
             domain: {
               placeholder: 'Your domain',

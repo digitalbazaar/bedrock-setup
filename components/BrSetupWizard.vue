@@ -104,7 +104,22 @@ export default {
       return this.steps.length - 1;
     },
     steps() {
-      return [this.welcomeStep, ...this.flow, this.reviewStep];
+      const {flow} = this;
+      const steps = [this.welcomeStep, ...flow, this.reviewStep];
+      // generate default model for each flow if a model template is given
+      for(const step of flow) {
+        const {form} = step;
+        if(!form) {
+          continue;
+        }
+        if(form.modelTemplate) {
+          form.model = {
+            ...(form.model || {}),
+            ...jsonata(form.modelTemplate).evaluate({window})
+          };
+        }
+      }
+      return steps;
     }
   },
   methods: {
@@ -115,8 +130,7 @@ export default {
         const {config, review} = applyTemplates({
           flow,
           templates: {config: configTemplate, review: reviewTemplate},
-          // FIXME: expose full window or just `location` or what?
-          constants: {window}
+          env: {window}
         });
         this.config = config;
         this.review = review;
@@ -134,13 +148,13 @@ export default {
   }
 };
 
-function applyTemplates({flow, templates, constants}) {
+function applyTemplates({flow, templates, env}) {
   // 1. Merge all forms into data for the templates.
   const data = mergeFlowData({flow});
   // 2. Create template output.
   const result = {};
   for(const key in templates) {
-    result[key] = jsonata(templates[key]).evaluate({...data, constants});
+    result[key] = jsonata(templates[key]).evaluate({...data, ...env});
   }
   console.log('result', result);
   return result;
