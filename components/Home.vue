@@ -1,6 +1,6 @@
 <template>
   <q-page
-    class="column q-col-gutter-md background"
+    class="column gutter-md background"
     padding>
     <div class="column items-center">
       <br-setup-wizard
@@ -43,9 +43,6 @@ export default {
     this.configTemplate = configTemplate;
     this.reviewTemplate = reviewTemplate;
     this.flowLoaded = true;
-
-    // TODO: enable a flow template for generating default values from
-    // environment variables like `window.location.origin`?
   },
   methods: {
     finish(event) {
