@@ -12,7 +12,7 @@
       :image="currentStep.image"
       :icon="currentStep.icon"
       :subheading="currentStep.subheading">
-      <div class="q-pb-xl fit">
+      <div class="fit steps">
         <welcome
           v-if="stepIndex === 0"
           :steps="steps" />
@@ -165,8 +165,23 @@ function mergeFlowData({flow}) {
 }
 
 </script>
-<style>
+<style lang="scss">
+$breakpoint-sm: 767px;
+$breakpoint-xs: 320px;
+
+@mixin mobile {
+  @media (min-width: #{$breakpoint-xs}) and (max-width: #{$breakpoint-sm}) {
+    @content;
+  }
+}
+
 [v-cloak] {
   display: none;
+}
+
+.steps {
+  @include mobile {
+    padding-bottom: 16px;
+  }
 }
 </style>
