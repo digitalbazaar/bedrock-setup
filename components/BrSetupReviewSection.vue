@@ -1,10 +1,12 @@
 <template>
-  <div>
-    <div>{{title}}</div>
+  <div class="full-width">
     <div
       v-for="field in fields"
       :key="field.name">
-      <div>{{field.name}}: {{field.value}}</div>
+      <div class="text-h6 row justify-between review-fields">
+        <div class="field-name text-right text-bold">{{field.name}}:</div>
+        <div class="field-value text-left">{{field.value}}</div>
+      </div>
     </div>
   </div>
 </template>
@@ -30,5 +32,27 @@ export default {
   }
 };
 </script>
-<style>
+<style lang="scss">
+$breakpoint-sm: 767px;
+$breakpoint-xs: 320px;
+
+@mixin mobile {
+  @media (min-width: #{$breakpoint-xs}) and (max-width: #{$breakpoint-sm}) {
+    @content;
+  }
+}
+
+.field-name,
+.field-value {
+  width: calc(50% - 8px);
+
+  @include mobile {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+.field-value {
+  word-wrap: break-word;
+}
 </style>

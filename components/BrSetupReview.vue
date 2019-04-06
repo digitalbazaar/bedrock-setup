@@ -1,10 +1,10 @@
 <template>
   <div class="fit">
-    <div class="row justify-center">
+    <div class="column justify-center">
       <div
         v-for="section in sections"
         :key="section.title"
-        class="q-my-none row">
+        class="q-my-xs full-width">
         <br-setup-review-section
           :title="section.title"
           :fields="section.fields" />
@@ -29,6 +29,9 @@ export default {
       default: () => [],
       required: true
     }
+  },
+  created() {
+    console.log('Sections', this.sections);
   }
 };
 </script>
