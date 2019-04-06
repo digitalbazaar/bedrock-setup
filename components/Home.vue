@@ -4,7 +4,7 @@
     padding>
     <div class="column items-center">
       <div v-if="loading">
-        Loading your new site...
+        {{showLoading()}}
       </div>
       <br-setup-wizard
         v-else
@@ -61,6 +61,11 @@ export default {
         throw e;
       }
       this.refreshAfterRestart();
+    },
+    showLoading() {
+      this.$q.loading.show({
+        message: 'Loading your new site...'
+      });
     },
     refreshAfterRestart() {
       setTimeout(async () => {

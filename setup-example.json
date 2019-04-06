@@ -16,8 +16,8 @@
         "size": "65px",
         "color": "primary"
       },
-      "heading": "FIXME Domain info",
-      "name": "FIXME Domain",
+      "subheading": "During this step, you will verify that the detected domain is appropriate",
+      "name": "Domain",
       "form": {
         "id": "domain",
         "model": {
@@ -43,8 +43,8 @@
         "size": "65px",
         "color": "primary"
       },
-      "heading": "FIXME Administrator",
-      "name": "FIXME Admin info",
+      "subheading": "This step is used to configure the administrator account for this system",
+      "name": "Administrator",
       "form": {
         "id": "admin",
         "model": {
