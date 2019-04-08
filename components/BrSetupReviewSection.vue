@@ -4,8 +4,12 @@
       v-for="field in fields"
       :key="field.name">
       <div class="text-h6 row justify-between review-fields">
-        <div class="field-name text-right text-bold">{{field.name}}:</div>
-        <div class="field-value text-left">{{field.value}}</div>
+        <div class="field-name text-right text-bold">
+          {{field.name}}:
+        </div>
+        <div class="field-value text-left">
+          {{field.value}}
+        </div>
       </div>
     </div>
   </div>
@@ -32,7 +36,7 @@ export default {
   }
 };
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 $breakpoint-sm: 767px;
 $breakpoint-xs: 320px;
 
