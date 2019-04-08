@@ -165,7 +165,7 @@ function mergeFlowData({flow}) {
 }
 
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 $breakpoint-sm: 767px;
 $breakpoint-xs: 320px;
 

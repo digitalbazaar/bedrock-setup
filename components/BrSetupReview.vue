@@ -29,9 +29,6 @@ export default {
       default: () => [],
       required: true
     }
-  },
-  created() {
-    console.log('Sections', this.sections);
   }
 };
 </script>

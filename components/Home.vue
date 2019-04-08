@@ -3,11 +3,7 @@
     class="column gutter-md background"
     padding>
     <div class="column items-center">
-      <div v-if="loading">
-        {{showLoading()}}
-      </div>
       <br-setup-wizard
-        v-else
         :flow="flow"
         :vocab="vocab"
         :config-template="configTemplate"
@@ -34,8 +30,7 @@ export default {
       vocab: {},
       configTemplate: {},
       reviewTemplate: {},
-      flowLoaded: false,
-      loading: false
+      flowLoaded: false
     };
   },
   async created() {
@@ -54,18 +49,15 @@ export default {
     },
     async storeConfig(config) {
       try {
-        this.loading = true;
+        this.$q.loading.show({
+          message: 'Loading your new site...'
+        });
         await this.setupService.store(config);
       } catch(e) {
-        this.loading = false;
+        this.$q.loading.hide();
         throw e;
       }
       this.refreshAfterRestart();
-    },
-    showLoading() {
-      this.$q.loading.show({
-        message: 'Loading your new site...'
-      });
     },
     refreshAfterRestart() {
       setTimeout(async () => {
