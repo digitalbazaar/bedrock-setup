@@ -23,6 +23,7 @@
           <br-q-form-generator
             ref="form"
             v-model="currentStep.form.model"
+            @input="update"
             :vocab="vocab"
             :schema="currentStep.form.schema" />
         </form>
@@ -75,7 +76,8 @@ export default {
     return {
       config: {},
       review: [],
-      stepIndex: 0
+      stepIndex: 0,
+      updated: Date.now()
     };
   },
   computed: {
@@ -108,6 +110,9 @@ export default {
       return flow;
     },
     blockNext() {
+      if(!this.updated) {
+        return false;
+      }
       if(this.currentStep.form && this.$refs.form && this.$refs.form.$v) {
         return this.$refs.form.$v.$invalid;
       }
@@ -115,6 +120,9 @@ export default {
     }
   },
   methods: {
+    update() {
+      this.updated = Date.now();
+    },
     next() {
       if(this.stepIndex + 1 === this.lastStepIndex) {
         // apply templates for review and config
