@@ -23,9 +23,9 @@
           <br-q-form-generator
             ref="form"
             v-model="currentStep.form.model"
-            @input="update"
             :vocab="vocab"
-            :schema="currentStep.form.schema" />
+            :schema="currentStep.form.schema"
+            @input="update" />
         </form>
       </div>
     </br-wizard-step>
@@ -77,7 +77,7 @@ export default {
       config: {},
       review: [],
       stepIndex: 0,
-      updated: Date.now()
+      updated: null
     };
   },
   computed: {
