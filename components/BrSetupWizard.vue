@@ -73,6 +73,7 @@ export default {
   },
   data() {
     return {
+      blockNext: false,
       config: {},
       review: [],
       stepIndex: 0
@@ -106,13 +107,21 @@ export default {
         }
       }
       return flow;
-    },
-    blockNext() {
+    }
+  },
+  mounted() {
+    // use imperative API to get current step's `$refs.form` because it is run
+    // after the view is updated; the `watch` and `computed` option seems to be
+    // run before that and therefore returns the `$refs.form` for the previous
+    // step
+    this.$watch(() => {
       if(this.currentStep.form && this.$refs.form && this.$refs.form.$v) {
         return this.$refs.form.$v.$invalid;
       }
       return false;
-    }
+    }, value => {
+      this.blockNext = value;
+    }, {immediate: true});
   },
   methods: {
     next() {
