@@ -3,12 +3,10 @@
     <div
       v-for="field in fields"
       :key="field.name">
-      <div class="text-h6 row justify-between review-fields">
-        <div class="field-name text-right text-bold">
-          {{field.name}}:
-        </div>
-        <div class="field-value text-left">
-          {{field.value}}
+      <div class="text-h6 row justify-center review-fields">
+        <div class="field-name row">
+          <span class="text-bold field-name">{{field.name}}:</span>
+          <span class="q-ml-xs field-value">{{field.value}}</span>
         </div>
       </div>
     </div>
@@ -48,8 +46,6 @@ $breakpoint-xs: 320px;
 
 .field-name,
 .field-value {
-  width: calc(50% - 8px);
-
   @include mobile {
     width: 100%;
     text-align: center;
@@ -57,6 +53,6 @@ $breakpoint-xs: 320px;
 }
 
 .field-value {
-  word-wrap: break-word;
+  word-break: break-word;
 }
 </style>
