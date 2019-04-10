@@ -48,9 +48,9 @@
       "form": {
         "id": "admin",
         "model": {
-          "email": "",
-          "password": "",
-          "passwordConfirmation": ""
+          "email": "foo@bar.com",
+          "password": "A1passwordpassword!",
+          "passwordConfirmation": "A1passwordpassword!"
         },
         "schema": {
           "email": {
@@ -122,5 +122,5 @@
     }
   },
   "configTemplate": "{\n\"domain\": domain.domain, \"admin_email\":admin.email, \"admin_password\": admin.password}",
-  "reviewTemplate": "[{\n\"title\": \"Domain\", \"fields\": [{\"name\": \"Domain\", \"value\": domain.domain}]}, {\"title\": \"Administrator\", \"fields\": [{\"name\": \"Email\", \"value\": admin.email}]}]"
+  "reviewTemplate": "[{\n\"title\": \"Website Information\", \"fields\": [{\"name\": \"Domain\", \"value\": domain.domain}]}, {\"title\": \"Administrator Information\", \"fields\": [{\"name\": \"Email\", \"value\": admin.email}, {\"name\": \"Password\", \"value\": \"********\"}]}]"
 }
