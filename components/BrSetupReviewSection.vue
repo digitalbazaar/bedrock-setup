@@ -1,31 +1,26 @@
 <template>
-  <div class="full-width q-mb-md">
-    <div class="text-h5 row justify-center q-mb-sm">
-      <div class="title">
+  <q-card class="full-width q-mb-md">
+    <div class="text-h6 row justify-center bg-primary text-white q-py-xs">
+      <div class="text-center">
         {{title}}
       </div>
     </div>
-    <div class="text-h6 row justify-center">
-      <div class="row col-auto">
-        <div class="column col-auto">
-          <div
-            v-for="(fieldName, index) in fieldNames"
-            :key="index"
-            class="field-name text-right text-bold q-mr-sm">
-            {{fieldName}}:
+    <div class="row justify-center">
+      <div class="list q-mb-none q-mt-none q-pl-none full-width">
+        <h6
+          v-for="(field, index) in fields"
+          :key="index"
+          class="q-mt-none q-mb-none row justify-center items-center">
+          <div class="col-4 text-center text-bold field-name">
+            {{field.name}}
           </div>
-        </div>
-        <div class="column col-grow">
-          <div
-            v-for="(fieldValue, index) in fieldValues"
-            :key="index"
-            class="field-value text-left">
-            {{fieldValue}}
+          <div class="col-8 field-value q-px-md q-py-sm">
+            {{field.value}}
           </div>
-        </div>
+        </h6>
       </div>
     </div>
-  </div>
+  </q-card>
 </template>
 <script>
 /*!
@@ -67,8 +62,9 @@ $breakpoint-xs: 320px;
   }
 }
 
-.title {
-  border-bottom: 1px solid #222;
+.field-value {
+  word-break: break-all;
+  border-left: 1px solid rgba(0, 0, 0, 0.12);
 }
 
 .field-name,
@@ -76,6 +72,21 @@ $breakpoint-xs: 320px;
   @include mobile {
     width: 100%;
     text-align: center;
+    border-left: none;
+    padding-top: 0;
+    padding-bottom: 0;
   }
+}
+
+h6 {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+
+  @include mobile {
+    padding: 8px 0;
+  }
+}
+
+h6:last-child {
+  border-bottom: none;
 }
 </style>
