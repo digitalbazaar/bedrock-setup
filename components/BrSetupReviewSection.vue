@@ -1,7 +1,9 @@
 <template>
-  <div class="full-width">
-    <div class="text-h5 row justify-left q-mb-sm">
-      <div>{{title}}</div>
+  <div class="full-width q-mb-md">
+    <div class="text-h5 row justify-center q-mb-sm">
+      <div class="title">
+        {{title}}
+      </div>
     </div>
     <div class="text-h6 row justify-center">
       <div class="row col-auto">
@@ -63,6 +65,10 @@ $breakpoint-xs: 320px;
   @media (min-width: #{$breakpoint-xs}) and (max-width: #{$breakpoint-sm}) {
     @content;
   }
+}
+
+.title {
+  border-bottom: 1px solid #222;
 }
 
 .field-name,
