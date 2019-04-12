@@ -1,4 +1,4 @@
-## 1.0.0 - TBD
+## 1.0.0 - 2019-04-12
 
 ### Added
 - Add core files.
