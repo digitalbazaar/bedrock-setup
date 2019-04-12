@@ -1,6 +1,7 @@
 {
   "name": "bedrock-setup",
   "version": "0.0.1",
+  "description": "Setup and configure Bedrock systems",
   "private": true,
   "main": "lib",
   "browser": "index.js",
@@ -9,6 +10,22 @@
     "start": "node --preserve-symlinks setup.localhost.js",
     "postinstall": "node --preserve-symlinks setup.localhost.js compile-less"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/digitalbazaar/bedrock-setup"
+  },
+  "keywords": [
+    "bedrock"
+  ],
+  "author": {
+    "name": "Digital Bazaar, Inc.",
+    "email": "support@digitalbazaar.com",
+    "url": "https://digitalbazaar.com"
+  },
+  "bugs": {
+    "url": "https://github.com/digitalbazaar/bedrock-setup/issues"
+  },
+  "homepage": "https://github.com/digitalbazaar/bedrock-setup",
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.7.2",
     "animate.css": "^3.6.1",
