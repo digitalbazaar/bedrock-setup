@@ -63,13 +63,13 @@ export default {
     refreshAfterRestart() {
       setTimeout(async () => {
         try {
-          const (headers, data) = await axios.get(window.location);
+          const {headers, data} = await axios.get(window.location);
           if(headers['content-type'].includes('text/html') &&
             data.includes('bedrock')) {
-              window.location.replace(window.location);
-            } else {
-              throw new Error('Landing page is not a Bedrock application.');
-            }
+            window.location.replace(window.location);
+          } else {
+            throw new Error('Landing page is not a Bedrock application.');
+          }
         } catch(err) {
           this.refreshAfterRestart();
         }
