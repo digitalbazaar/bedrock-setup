@@ -18,6 +18,7 @@
  */
 'use strict';
 
+import axios from 'axios';
 import BrSetupWizard from './BrSetupWizard.vue';
 import {SetupService} from './SetupService.js';
 
@@ -62,6 +63,7 @@ export default {
     refreshAfterRestart() {
       setTimeout(async () => {
         try {
+          await axios.get(window.location);
           window.location.replace(window.location);
         } catch(err) {
           this.refreshAfterRestart();
