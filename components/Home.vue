@@ -51,7 +51,7 @@ export default {
     async storeConfig(config) {
       try {
         this.$q.loading.show({
-          message: 'Loading your new site...'
+          message: 'Configuring the website... this may take a while.'
         });
         await this.setupService.store(config);
       } catch(e) {
