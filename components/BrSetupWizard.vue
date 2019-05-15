@@ -12,7 +12,7 @@
       :image="currentStep.image"
       :icon="currentStep.icon"
       :subheading="currentStep.subheading">
-      <div class="fit steps">
+      <div class="full-width steps">
         <welcome
           v-if="stepIndex === 0"
           :steps="steps" />
