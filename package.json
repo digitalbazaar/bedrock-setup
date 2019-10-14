@@ -29,7 +29,7 @@
     "@fortawesome/fontawesome-free": "^5.7.2",
     "animate.css": "^3.6.1",
     "axios": "^0.18.0",
-    "bedrock": "^1.12.1",
+    "bedrock": "^2.0.0",
     "bedrock-express": "^2.1.0",
     "bedrock-quasar": "^3.0.0",
     "bedrock-quasar-form-generator": "^2.0.0",
