@@ -2,12 +2,11 @@
   "name": "bedrock-setup",
   "version": "2.0.1-0",
   "description": "Setup and configure Bedrock systems",
-  "main": "lib",
-  "browser": "index.js",
-  "less": "app.less",
+  "main": "lib/index.js",
+  "browser": "components/index.js",
   "scripts": {
-    "start": "node --preserve-symlinks setup.localhost.js",
-    "postinstall": "node --preserve-symlinks setup.localhost.js compile-less"
+    "lint": "eslint '*.js' 'lib/*.js' 'components/*.js' 'components/*.vue'",
+    "start": "node --preserve-symlinks setup.localhost.js"
   },
   "repository": {
     "type": "git",
@@ -26,23 +25,22 @@
   },
   "homepage": "https://github.com/digitalbazaar/bedrock-setup",
   "dependencies": {
-    "@fortawesome/fontawesome-free": "^5.7.2",
-    "animate.css": "^3.6.1",
     "axios": "^0.18.0",
     "bedrock": "^2.0.0",
-    "bedrock-express": "^2.1.0",
-    "bedrock-quasar": "^3.0.0",
+    "bedrock-express": "github:digitalbazaar/bedrock-express#async",
+    "bedrock-fontawesome": "github:digitalbazaar/bedrock-fontawesome#initial",
+    "bedrock-quasar": "github:digitalbazaar/bedrock-quasar#webpack2",
     "bedrock-quasar-form-generator": "^2.0.0",
-    "bedrock-server": "^2.2.0",
-    "bedrock-session-http": "^3.1.0",
+    "bedrock-server": "github:digitalbazaar/bedrock-server#events-update",
+    "bedrock-session-http": "github:digitalbazaar/bedrock-session-http#events-update",
     "bedrock-validation": "^4.0.0",
-    "bedrock-views": "^6.0.0",
-    "bedrock-vue": "^1.0.0",
+    "bedrock-views": "github:digitalbazaar/bedrock-views#view-vars-etc",
+    "bedrock-vue": "github:digitalbazaar/bedrock-vue#view-vars-etc",
     "bedrock-vue-wizard": "^3.0.0",
     "bedrock-web": "^1.0.0",
     "bedrock-web-session": "^1.1.0",
     "bedrock-web-store": "^1.1.1",
-    "bedrock-webpack": "^2.0.0",
+    "bedrock-webpack": "github:digitalbazaar/bedrock-webpack#view-vars-etc",
     "jsonata": "^1.6.4",
     "p-debounce": "^1.0.0",
     "vue": "^2.5.16",
@@ -55,36 +53,8 @@
     "babel-eslint": "^10.0.1",
     "bedrock-test": "^2.0.0",
     "eslint": "^5.12.1",
-    "eslint-config-digitalbazaar": "^1.7.0",
+    "eslint-config-digitalbazaar": "^2.0.1",
     "eslint-plugin-vue": "^5.1.0"
-  },
-  "bedrock": {
-    "browserDependencies": [
-      "@fortawesome/fontawesome-free",
-      "animate.css",
-      "bedrock-quasar",
-      "bedrock-vue",
-      "bedrock-vue-wizard",
-      "bedrock-web-session",
-      "bedrock-web-store",
-      "vue",
-      "vue-async-computed",
-      "vue-router",
-      "vuelidate"
-    ],
-    "manifest": {
-      "axios": {
-        "main": "dist/axios.min.js"
-      },
-      "@fortawesome/fontawesome-free": {
-        "main": null,
-        "less": [
-          "less/fontawesome.less",
-          "less/regular.less",
-          "less/solid.less"
-        ]
-      }
-    }
   },
   "engines": {
     "node": ">=8.9.0"
