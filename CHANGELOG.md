@@ -1,5 +1,10 @@
 # bedrock-setup ChangeLog
 
+### Changed
+- Update/add dependencies:
+  - bedrock-{fontawesome,quasar,views,vue,webpack,etc}
+  - Update code as needed.
+
 ## 2.0.0 - 2019-10-22
 
 ## Changed

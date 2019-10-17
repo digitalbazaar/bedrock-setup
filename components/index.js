@@ -3,6 +3,7 @@
  */
 'use strict';
 
+import 'bedrock-fontawesome';
 import * as brVue from 'bedrock-vue';
 import Vue from 'vue';
 import VueRouter from 'vue-router';
