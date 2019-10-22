@@ -1,5 +1,10 @@
 # bedrock-setup ChangeLog
 
+## 2.0.0 - 2019-10-22
+
+## Changed
+- **BREAKING**: Refactor for use with bedrock@2.
+
 ## 1.0.1 - 2019-05-15
 
 ### Fixed
