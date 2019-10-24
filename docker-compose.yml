@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  bedrock-setup:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:10443:10443"
+    volumes:
+      - /etc/bedrock-setup/:/etc/bedrock-setup/
