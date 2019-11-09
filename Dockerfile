@@ -11,6 +11,8 @@ RUN npm install --no-optional --production
 RUN npm run compile-less
 
 FROM base AS release
+RUN mkdir /etc/bedrock-setup
+RUN chown node:node /etc/bedrock-setup
 COPY --from=build /home/node/app/node_modules ./node_modules
 EXPOSE 10443
 USER node
