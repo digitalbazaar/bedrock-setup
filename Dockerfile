@@ -9,7 +9,7 @@ FROM base AS build
 RUN apk add --no-cache git bash
 WORKDIR /home/node/app
 USER node
-RUN npm install --no-optional --production
+RUN npm ci --no-optional --production
 RUN npm run compile-less
 
 FROM base AS release
