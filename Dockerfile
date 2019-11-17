@@ -15,5 +15,5 @@ COPY --from=build --chown=node:node /home/node/app/.cache ./.cache
 EXPOSE 10443
 RUN chown -R node:node /etc/bedrock-setup
 USER node
-ENV NODE_ENV="production"
+#ENV NODE_ENV="production"
 CMD [ "node", "setup.localhost.js", "/etc/bedrock-setup/setup.json", "/etc/bedrock-setup/setup.ini", "--bundle-mode", "production"]
